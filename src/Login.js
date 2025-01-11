@@ -116,16 +116,17 @@ const styles = StyleSheet.create({
     textEmail: {
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: "500",
         marginBottom: 5,
     },
     inputEmail: {
         backgroundColor: "rgba(255, 255, 255, 255)",
         color: "rgba(0, 0, 0, 255)",
+        height: 55,
+        fontSize: 20,
         borderRadius: 8,
-        padding: 15,
-        fontSize: 18,
+        paddingHorizontal: 10,
     },
 
     viewSenha: {
@@ -135,25 +136,22 @@ const styles = StyleSheet.create({
     textSenha: {
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: "500",
         marginBottom: 5,
     },
-    viewOlhoSenha: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "rgba(255, 255, 255, 255)",
-        borderRadius: 8,
-        paddingHorizontal: 10,
-        width: 328,
-        height: 50,
-    },
     inputSenha: {
-        flex: 1,
         backgroundColor: "rgba(255, 255, 255, 255)",
         color: "rgba(0, 0, 0, 255)",
+        flex: 1,
+        height: 55,
+        fontSize: 20,
+    },
+    viewOlhoSenha: {
+        backgroundColor: "rgba(255, 255, 255, 255)",
+        flexDirection: "row",
         borderRadius: 8,
-        fontSize: 18,
+        paddingHorizontal: 10,
     },
     buttonOlhoSenha: {
         width: 40,
@@ -173,7 +171,7 @@ const styles = StyleSheet.create({
     textEsqueciSenha: {
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
-        fontSize: 14,
+        fontSize: 16,
         textAlign: "right",
         textDecorationLine: "underline",
     },
@@ -189,7 +187,7 @@ const styles = StyleSheet.create({
     textBotaoEntrar: {
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: "700",
     },
 
@@ -203,7 +201,7 @@ const styles = StyleSheet.create({
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
         textAlign: "center",
-        fontSize: 14,
+        fontSize: 16,
         textDecorationLine: "underline",
     },
 
