@@ -81,11 +81,12 @@ const styles = StyleSheet.create({
 
     viewLogo: {
         position: "absolute",
-        top: 20,
+        top: 50,
     },
     logo: {
         width: 128,
         height: 128,
+        resizeMode: "contain",
     },
 
     viewBemVindo: {
