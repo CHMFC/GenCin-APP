@@ -7,7 +7,7 @@ import CadastroAluno from './src/CadastroAluno';
 import CadastroProfessor from './src/CadastroProfessor';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(3);
+  const [pagina, setPagina] =  useState(2);
   const [keySessao, setkeySessao] = useState(0);
 
 
