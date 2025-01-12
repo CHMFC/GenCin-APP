@@ -21,7 +21,7 @@ export default function CadastroAluno() {
                 {/* Logo */}
                 <View style = {styles.viewLogo}>
                     <Image
-                        source={require("../assets/icon.png")}
+                        source={require("../assets/GenCIn_Logo.png")}
                         style = {styles.logo}
                     />
                 </View>
@@ -82,8 +82,8 @@ export default function CadastroAluno() {
                             <Image
                                 source={
                                     passwordVisible
-                                        ? require("../assets/icon.png")
-                                        : require("../assets/icon.png")
+                                        ? require("../assets/SenhaRevelada.png")
+                                        : require("../assets/SenhaEscondida.png")
                                 }
                                 style = {styles.imageOlhoSenha}
                             />
@@ -110,8 +110,8 @@ export default function CadastroAluno() {
                             <Image
                                 source={
                                     passwordVisible
-                                        ? require("../assets/icon.png")
-                                        : require("../assets/icon.png")
+                                        ? require("../assets/SenhaRevelada.png")
+                                        : require("../assets/SenhaEscondida.png")
                                 }
                                 style = {styles.imageOlhoSenha}
                             />
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         alignItems: "center",
-        paddingVertical: 10,
+        paddingVertical: 15,
     },
 
     viewBotaoCadastrar: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 8,
         paddingVertical: 15,
-        marginBottom: 10,
+        marginBottom: 20,
     },
     textBotaoCadastrar: {
         color: "rgba(255, 255, 255, 255)",
