@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
     View,
@@ -10,10 +11,8 @@ import {
 
 export default function LoginScreen() {
     const [passwordVisible, setPasswordVisible] = useState(false);
-
     return (
         <View style={styles.container}>
-
             {/* Logo */}
             <View style = {styles.viewLogo}>
                 <Image
@@ -87,7 +86,6 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         justifyContent: "center",

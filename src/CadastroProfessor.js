@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
@@ -58,7 +59,6 @@ export default function CadastroProfessor(){
                 </TouchableOpacity>
             </View>
         </View>
-       
     )
 
 }
