@@ -15,11 +15,11 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
-        {pagina === 2 ? (
+        {pagina === 0 ? (
           <Login></Login>
             ):  pagina === 1 ? (
               <SeletorCadastro></SeletorCadastro>
-            ): pagina === 0 ? (
+            ): pagina === 2 ? (
               <CadastroAluno></CadastroAluno>
             ):pagina === 3 ? (
               <CadastroProfessor></CadastroProfessor>
