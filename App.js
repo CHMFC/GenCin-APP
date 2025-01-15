@@ -7,7 +7,7 @@ import CadastroAluno from './src/CadastroAluno';
 import CadastroProfessor from './src/CadastroProfessor';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(0);
+  const [pagina, setPagina] =  useState(2);
   const [keySessao, setkeySessao] = useState(0);
 
 
@@ -15,7 +15,6 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
-
         {pagina === 0 ? (
           <Login></Login>
             ):  pagina === 1 ? (
