@@ -58,7 +58,7 @@ export default function CadastroProfessor(){
                 </TouchableOpacity>
             </View>
         </View>
-        
+       
     )
 
 }
