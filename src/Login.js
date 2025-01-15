@@ -1,233 +1,205 @@
 import React, { useState } from "react";
-import { Text, 
-  StyleSheet, 
-  View, 
-  TextInput, 
-  TouchableOpacity, 
-  ScrollView, 
-  KeyboardAvoidingView, 
-  Platform, 
-  Dimensions, 
-  Image 
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
 } from "react-native";
 
-// Pegando as dimensões da tela (largura e altura)
-const { width, height } = Dimensions.get('window');
+export default function LoginScreen() {
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    return (
+        <View style={styles.container}>
+            {/* Logo */}
+            <View style = {styles.viewLogo}>
+                <Image
+                    source = {require('../assets/GenCIn_BigLogo.png')}
+                    style = {styles.logo}
+                />
+            </View>
 
-export default function Login() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  return (
-    /* KeyboardAvoidingView para evitar que o teclado cubra o conteúdo */
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"} // Ajusta o comportamento para iOS e Android
-      style={styles.container}
-    >
-      {/* ScrollView para permitir rolagem do conteúdo caso o teclado ou outros elementos ocupem muito espaço */}
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Container Principal onde o conteúdo do formulário é exibido */}
-        <View style={styles.formContainer}>
-          {/* Container da Imagem do perfil */}
-          <View style={styles.imageContainer}>
-            <Image source={require('../assets/LogoNome.png')} style={styles.image} />
-          </View>
+            {/* Campo do Email */}
+            <View style = {styles.viewEmail}>
+                <Text style = {styles.textEmail}>
+                    Email
+                </Text>
+                <TextInput
+                    style = {styles.inputEmail}
+                    placeholder = "email@email.com"
+                    placeholderTextColor = "rgba(169, 169, 169, 255)"
+                    keyboardType = "email-address"
+                />
+            </View>
 
-          {/* Container do campo Email */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style = {styles.input}
-              placeholder= 'exemplo@gmail.com'
-              placeholderTextColor= '#BCBCBC'
-            />
-          </View>
+            {/* Campo da Senha */}
+            <View style={styles.viewSenha}>
+                <Text style={styles.textSenha}>Senha</Text>
+                <View style={styles.viewOlhoSenha}>
+                    <TextInput
+                        style={styles.inputSenha}
+                        placeholder="senha"
+                        placeholderTextColor="rgba(169, 169, 169, 255)"
+                        secureTextEntry={!passwordVisible}
+                    />
+                    <TouchableOpacity
+                        style={styles.buttonOlhoSenha}
+                        onPress={() => setPasswordVisible(!passwordVisible)}
+                    >
+                        <Image
+                            source={
+                                passwordVisible
+                                    ? require("../assets/SenhaRevelada.png")
+                                    : require("../assets/SenhaEscondida.png")
+                            }
+                            style={styles.imageOlhoSenha}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </View>
 
-          {/* Container do campo Senha */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Senha</Text>
-            <TextInput
-              style = {styles.input}
-                            placeholder= 'senha'
-                            placeholderTextColor= '#BCBCBC'
-                            secureTextEntry={!passwordVisible}
-            />
-            <TouchableOpacity
-              style = {styles.buttonOlhoSenha}
-              onPress={() => setPasswordVisible(!passwordVisible)}
-            >
-              <Image
-                source={
-                  passwordVisible
-                    ? require("../assets/SenhaRevelada.png")
-                    : require("../assets/SenhaEscondida.png")
-                }
-                style = {styles.imageOlhoSenha}
-              />
+            {/* Texto: "Esqueceu a senha?" */}
+            <TouchableOpacity style = {styles.viewEsqueciSenha}>
+                <Text style = {styles.textEsqueciSenha}>
+                    Esqueceu a senha?
+                </Text>
             </TouchableOpacity>
-          </View>
 
-          {/* Container para o link "Esqueceu senha?" */}
-          <View style={styles.esqueceuSenhaWrapper}>
-            <TouchableOpacity>
-              <Text style={styles.email}>Esqueceu senha?</Text>
+            {/* Botão para entrar/login */}
+            <TouchableOpacity style = {styles.viewBotaoEntrar}>
+                <Text style = {styles.textBotaoEntrar}>
+                    Entrar
+                </Text>
             </TouchableOpacity>
-          </View>
 
-          {/* Botão para login (Entrar) */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Entrar</Text>
+            {/* Texto: "Ainda não tem conta? Cadastre-se!" */}
+            <TouchableOpacity style = {styles.viewCadastreSe}>
+                <Text style = {styles.textCadastreSe}>
+                    Ainda não tem conta? Cadastre-se!
+                </Text>
             </TouchableOpacity>
-          </View>
 
-          {/* Texto com link para "Criar conta" */}
-          <View style={styles.linkContainer}>
-            <TouchableOpacity>
-              <Text style={styles.criarConta}>Ainda não tenho conta</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
+    );
 }
 
-// Estilos do aplicativo
 const styles = StyleSheet.create({
-  // Estilo principal do container (envolve toda a tela)
-  container: {
-    flex: 1,
-    backgroundColor: '#CE1111', // Cor de fundo da tela
-    alignItems: 'stretch',
-  },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        paddingVertical: 40,
+        backgroundColor: "rgba(206, 17, 17, 255)",
+    },
 
-  // Estilos do ScrollView, garantindo que o conteúdo tenha um espaçamento adequado
-  scrollContainer: {
-    flexGrow: 1, // Permite o conteúdo rolar enquanto o conteúdo cresce
-    justifyContent: 'center', // Alinha o conteúdo verticalmente ao centro
-    alignItems: 'center', // Alinha o conteúdo horizontalmente ao centro
-    paddingLeft: '4%', // Adiciona espaçamento nas laterais
-    paddingRight: '4%',
-    paddingTop: '6%', // Espaçamento superior para dar espaço
-    paddingBottom: '6%', // Espaçamento inferior
-  },
+    viewLogo: {
+        position: "absolute",
+        top: 50,
+        width: "100%",
+        alignItems: "center",
+    },
+    logo: {
+        width: 256,
+        height: 128,
+        resizeMode: "contain",
+    },
 
-  // Estilo do container que envolve todo o formulário de login
-  formContainer: {
-    width: '100%', // Faz com que ocupe toda a largura disponível
-    alignItems: 'center', // Alinha todos os itens (inputs, botões, etc) ao centro
-  },
+    viewEmail: {
+        width: 328,
+        marginBottom: 20,
+    },
+    textEmail: {
+        color: "rgba(255, 255, 255, 255)",
+        fontFamily: "Roboto",
+        fontSize: 22,
+        fontWeight: "500",
+        marginBottom: 5,
+    },
+    inputEmail: {
+        backgroundColor: "rgba(255, 255, 255, 255)",
+        color: "rgba(0, 0, 0, 255)",
+        height: 55,
+        fontSize: 20,
+        borderRadius: 8,
+        paddingHorizontal: 10,
+    },
 
-  // Estilo do contêiner que exibe a imagem de perfil (ou logo)
-  imageContainer: {
-    width: width * 0.6, // Ajusta a largura para 60% da tela
-    aspectRatio: 1.5, // Mantém a proporção da imagem
-    marginBottom: height * 0.05, // Espaço inferior baseado na altura da tela
-    marginTop: height * 0.1, // Espaço superior baseado na altura da tela
-    alignItems: 'center', // Centraliza a imagem dentro do contêiner
-    justifyContent: 'center', // Centraliza a imagem dentro do contêiner
-  },
+    viewSenha: {
+        width: 328,
+        marginBottom: 20,
+    },
+    textSenha: {
+        color: "rgba(255, 255, 255, 255)",
+        fontFamily: "Roboto",
+        fontSize: 22,
+        fontWeight: "500",
+        marginBottom: 5,
+    },
+    inputSenha: {
+        backgroundColor: "rgba(255, 255, 255, 255)",
+        color: "rgba(0, 0, 0, 255)",
+        flex: 1,
+        height: 55,
+        fontSize: 20,
+    },
+    viewOlhoSenha: {
+        backgroundColor: "rgba(255, 255, 255, 255)",
+        flexDirection: "row",
+        borderRadius: 8,
+        paddingHorizontal: 10,
+    },
+    buttonOlhoSenha: {
+        width: 40,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    imageOlhoSenha: {
+        width: 24,
+        height: 24,
+        tintColor: "rgba(0, 0, 0, 255)",
+    },
 
-  // Estilo da imagem, para garantir que se ajuste dentro do contêiner
-  image: {
-    width: '100%', // A imagem ocupa toda a largura do contêiner
-    height: '100%', // A imagem ocupa toda a altura do contêiner
-    resizeMode: 'contain', // Garante que a imagem será redimensionada sem distorções
-  },
+    viewEsqueciSenha: {
+        width: 328,
+        marginBottom: 30,
+    },
+    textEsqueciSenha: {
+        color: "rgba(255, 255, 255, 255)",
+        fontFamily: "Roboto",
+        fontSize: 16,
+        textAlign: "right",
+        textDecorationLine: "underline",
+    },
 
-  // Estilo do rótulo (label) do campos de input  
-  label: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontFamily: 'Roboto',
-    fontWeight: '400',
-    marginTop: 6,
-  },
+    viewBotaoEntrar: {
+        backgroundColor: "rgba(0, 123, 255, 255)",
+        width: 328,
+        alignItems: "center",
+        borderRadius: 8,
+        paddingVertical: 15,
+        marginBottom: 20,
+    },
+    textBotaoEntrar: {
+        color: "rgba(255, 255, 255, 255)",
+        fontFamily: "Roboto",
+        fontSize: 18,
+        fontWeight: "700",
+    },
 
-  // Estilo do contêiner que envolve os campos de entrada de texto
-  inputContainer: {
-    alignSelf: 'stretch',
-    height: 72, // Altura proporcional à altura da tela(nao ta em % pq a rolagem ficou estranha)
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    gap: '4%', // Distancia do Label para o Input
-  },
+    viewCadastreSe:{
+        position: "absolute",
+        bottom: 20,
+        width: "100%",
+        alignItems: "center",
+    },
+    textCadastreSe: {
+        color: "rgba(255, 255, 255, 255)",
+        fontFamily: "Roboto",
+        textAlign: "center",
+        fontSize: 16,
+        textDecorationLine: "underline",
+    },
 
-  // Estilo do campo de entrada de texto (input)
-  input: {
-    flex: 1,
-    alignSelf: 'stretch',
-    height: 50,
-    borderRadius: 8,
-    backgroundColor: '#F2F2F2', // Cor de fundo do campo de entrada
-    paddingLeft: 6,
-  },
-
-  // Estilo do contêiner do botão "Olho" da senha
-  buttonOlhoSenha: {
-    position: 'absolute', // Utiliza position absolute para posicionar o botão sobre o campo
-    right: 10, // Ajusta a distância do botão à direita
-    top: 50, // Alinha verticalmente o botão ao centro
-    transform: [{ translateY: -12 }], // Ajuste fino para centralizar verticalmente
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  imageOlhoSenha: {
-    width: 24,
-    height: 24,
-    tintColor: '#BCBCBC',
-  },
-
-  // Estilo do link "Esqueceu senha?"
-  esqueceuSenhaWrapper: {
-    alignSelf: 'flex-end', // Alinha o link à direita
-    marginTop: height * 0.02, // Espaçamento superior baseado na altura da tela
-    marginBottom: height * 0.02, // Espaçamento inferior baseado na altura
-  },
-  email: {
-    fontFamily: 'Roboto-Regular', // Tipo de fonte
-    fontSize: 16, // Tamanho da fonte baseado na largura da tela
-    color: '#ffffff', // Cor do texto
-  },
-
-  // Estilo do contêiner do botão "Entrar"
-  buttonContainer: {
-    alignSelf: 'stretch', // Faz o botão ocupar toda a largura disponível
-    height: 72, // Altura proporcional à altura da tela
-    justifyContent: 'center', // Alinha o botão no centro
-    alignItems: 'center', // Alinha os itens ao centro
-    marginBottom: height * 0.06, // Adiciona um espaço entre o botão e o próximo elemento
-  },
-
- // Estilo do botão "Entrar"
-  button: {
-    alignSelf: 'stretch', // Faz o botão ocupar toda a largura disponível
-    height: 45, // Altura proporcional à tela
-    paddingLeft: '4%', // Espaçamento interno à esquerda
-    paddingRight: '4%',
-    paddingTop: '2%', // Espaçamento superior baseado na altura
-    paddingBottom: '2%', // Espaçamento inferior baseado na altura
-    borderRadius: 8, // Bordas arredondadas
-    borderWidth: 1, // Largura da borda
-    borderColor: 'transparent', // A borda é invisível
-    backgroundColor: '#1E90FF', // Cor de fundo do botão
-    justifyContent: 'center', // Alinha o conteúdo do botão no centro
-    alignItems: 'center', // Alinha o texto dentro do botão
-  },
-
-  // Estilo do texto dentro do botão
-  buttonText: {
-    color: '#ffffff', // Cor do texto
-    fontSize: 16, // Tamanho da fonte
-    fontWeight: '400', // Peso da fonte
-  },
-
-  // Estilo do link "Criar conta"
-  criarConta: {
-    color: '#ffffff', // Cor do link
-    textAlign: 'center', // Alinha o texto ao centro
-    fontFamily: 'Roboto-Regular', // Fonte utilizada
-    fontSize: 16, // Tamanho da fonte baseado na largura da tela
-    textDecorationLine: "underline",
-  },
 });

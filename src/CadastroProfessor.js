@@ -11,7 +11,6 @@ import {
     KeyboardAvoidingView,
     Platform,
 } from "react-native";
-
 // Pegando as dimensões da tela
 const { width, height } = Dimensions.get('window');
 
@@ -131,7 +130,6 @@ export default function CadastroProfessor() {
 }
 
 const styles = StyleSheet.create({
-
     // Estilos do ScrollView, garantindo que o conteúdo tenha um espaçamento adequado
     scrollContainer: {
       flexGrow: 1, 
@@ -149,7 +147,6 @@ const styles = StyleSheet.create({
       width: '100%', 
       alignItems: 'center',
     },
-    
     // Estilo do contêiner que exibe a imagem de perfil (ou logo)
     imageContainer: {
       width: width * 0.4,
