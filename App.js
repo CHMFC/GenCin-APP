@@ -5,9 +5,10 @@ import Login from './src/Login';
 import SeletorCadastro from './src/SeletorCadastro';
 import CadastroAluno from './src/CadastroAluno';
 import CadastroProfessor from './src/CadastroProfessor';
+import Perfil from './src/Perfil';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(0);
+  const [pagina, setPagina] =  useState(4);
   const [keySessao, setkeySessao] = useState(0);
 
 
@@ -23,6 +24,8 @@ export default function App() {
               <CadastroAluno></CadastroAluno>
             ):pagina === 3 ? (
               <CadastroProfessor></CadastroProfessor>
+            ):pagina === 4 ? (
+              <Perfil></Perfil>
             ):(
               <View/>
             )}
