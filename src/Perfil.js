@@ -34,6 +34,16 @@ export default function Perfil() {
                     [email@email.com]
                 </Text>
 
+                {/* Bloco de Informações */}
+                <View style={styles.viewInformacoes}>
+
+                    {/* Texto: "[Departamento]" */}
+                    <Text style={styles.textDepartamentoUsuario}>
+                        [Departamento]
+                    </Text>
+
+                </View>
+
             </View>
 
             {/* Bloco fixo que fica embaixo */}
@@ -92,7 +102,28 @@ const styles = StyleSheet.create({
     textEmailUsuario: {
         color: "rgba(84, 87, 89, 255)",
         fontSize: 18,
-        marginBottom: 20,
+        marginBottom: 80,
+    },
+
+    viewInformacoes: {
+        backgroundColor: "rgba(255, 255, 255, 255)",
+        width: "90%",
+        borderRadius: 10,
+        paddingTop: 25,
+        paddingBottom: 30,
+        paddingHorizontal: 25,
+        shadowColor: "rgba(0, 0, 0, 255)",
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    textDepartamentoUsuario: {
+        color: "rgba(51, 51, 51, 255)",
+        fontSize: 25,
+        fontWeight: "700",
     },
 
     viewBlocoFixoInferior: {
