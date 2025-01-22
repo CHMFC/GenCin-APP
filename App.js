@@ -6,9 +6,10 @@ import SeletorCadastro from './src/SeletorCadastro';
 import CadastroAluno from './src/CadastroAluno';
 import CadastroProfessor from './src/CadastroProfessor';
 import Perfil from './src/Perfil';
+import EditarPerfil from './src/EditarPerfil';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(4);
+  const [pagina, setPagina] =  useState(5);
   const [keySessao, setkeySessao] = useState(0);
 
 
@@ -26,6 +27,8 @@ export default function App() {
               <CadastroProfessor></CadastroProfessor>
             ):pagina === 4 ? (
               <Perfil></Perfil>
+            ):pagina === 5 ? (
+              <EditarPerfil></EditarPerfil>
             ):(
               <View/>
             )}
