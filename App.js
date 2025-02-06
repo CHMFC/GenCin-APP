@@ -14,32 +14,23 @@ import Turmas from './src/Turmas';
 export default function App() {
   const [pagina, setPagina] =  useState(8);
   const [keySessao, setkeySessao] = useState(0);
+  const [login, setLogin] = useState(0);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
-        {pagina === 0? (
+        {login === 0 ? (
           <Login></Login>
-            ):  pagina === 1 ? (
-              <SeletorCadastro></SeletorCadastro>
-            ): pagina === 2 ? (
-              <CadastroAluno></CadastroAluno>
-            ):pagina === 3? (
-              <CadastroProfessor></CadastroProfessor>
-            ):pagina === 4? (
-              <Home></Home>
-            ):pagina === 5? (
-              <BarraSuperior></BarraSuperior>
-            ):pagina === 6? (
-              <BarraInferior></BarraInferior>
-            ):pagina === 7? (
-              <Turmas></Turmas>
-            ):pagina === 8? (
-              <AdicionarTurmaAluno></AdicionarTurmaAluno>
-            ):(
-              <View/>
-            )}
-        </View>
+        ): login === 1 ?(
+          <SeletorCadastro></SeletorCadastro>
+        ): login === 2 ? (
+          <CadastroAluno></CadastroAluno>
+        ): login === 3 ? (
+          <CadastroProfessor></CadastroProfessor>
+        ): (
+          <View/>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
@@ -56,3 +47,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(100,100,100,150)',
   },
 });
+
+/** 
+{pagina === 0 ? (
+  <Login></Login>
+    ):  pagina === 1 ? (
+      <SeletorCadastro></SeletorCadastro>
+    ): pagina === 2 ? (
+      <CadastroAluno></CadastroAluno>
+    ):pagina === 3 ? (
+      <CadastroProfessor></CadastroProfessor>
+    ):(
+      <View/>
+    )}
+*/
