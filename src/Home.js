@@ -1,12 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Importando o Ionicons
+import { getInfo } from '../functions/api';
 
-export default function Home() {
+export default function Home({sessaoKey}) {
+
+  const [nome,setNome] = useState("");
 
   const handleChevronClick = () => {
     console.log('Entrar na Atividade!');
   };
+
+  const handleGetInfo = async () => {
+    try {
+      if (!sessaoKey) {
+        console.warn("Nenhuma sessaoKey encontrada!");
+        return;
+      }
+      const info = await getInfo(sessaoKey); 
+      setNome(info[0])
+
+    } catch (error) {
+      console.error("Erro ao obter informações Home:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetInfo();
+  })
 
   return (
     <SafeAreaView style={styles.containerSafe}>
@@ -14,7 +35,7 @@ export default function Home() {
         {/* Container Bem-vindo */}
         <View style={styles.containerBemVindo}>
           <View style={styles.containerBemVindoText}>
-            <Text style={styles.bemVindoNome}>Bem-vindo(a), Izack Angelo</Text>
+            <Text style={styles.bemVindoNome}>Bem-vindo(a), {nome}</Text>
           </View>
           <View style={styles.imageContainer}>
             <Image 

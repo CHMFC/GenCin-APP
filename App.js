@@ -16,13 +16,17 @@ export default function App() {
   const [keySessao, setkeySessao] = useState(0);
   const [login, setLogin] = useState(0);
 
+  const handleLogin = (key) => {
+    setkeySessao(key);
+    setLogin(4);
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
         {login === 0 ? (
-        {login === 0 ? (
-          <Login></Login>
+          <Login onLogin={handleLogin}></Login>
         ): login === 1 ?(
           <SeletorCadastro></SeletorCadastro>
         ): login === 2 ? (
@@ -30,17 +34,24 @@ export default function App() {
         ): login === 3 ? (
           <CadastroProfessor></CadastroProfessor>
         ): (
-          <View/>
-        )}
-      </View>
-        ): login === 1 ?(
-          <SeletorCadastro></SeletorCadastro>
-        ): login === 2 ? (
-          <CadastroAluno></CadastroAluno>
-        ): login === 3 ? (
-          <CadastroProfessor></CadastroProfessor>
-        ): (
-          <View/>
+          <View>
+            <View style={styles.barraSuperior}>
+              <BarraSuperior></BarraSuperior>
+            </View>
+
+            <View style={styles.conteudoCentral}>
+              {pagina === 0 ? (
+                <Home sessaoKey={keySessao} ></Home>
+              ): (
+                <View></View>
+              )}
+
+            </View>
+
+            <View style={styles.barraInferior}>
+              <BarraInferior></BarraInferior>
+            </View>
+          </View>
         )}
       </View>
     </SafeAreaView>
@@ -58,31 +69,13 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'rgba(100,100,100,150)',
   },
+  barraSuperior: {
+    height: '6%'
+  },
+  conteudoCentral: {
+    height: '89%'
+  },
+  barraInferior: {
+    height: '6%'
+  }
 });
-
-/** 
-{pagina === 0 ? (
-  <Login></Login>
-    ):  pagina === 1 ? (
-      <SeletorCadastro></SeletorCadastro>
-    ): pagina === 2 ? (
-      <CadastroAluno></CadastroAluno>
-    ):pagina === 3 ? (
-      <CadastroProfessor></CadastroProfessor>
-    ):(
-      <View/>
-    )}
-*/
-/** 
-{pagina === 0 ? (
-  <Login></Login>
-    ):  pagina === 1 ? (
-      <SeletorCadastro></SeletorCadastro>
-    ): pagina === 2 ? (
-      <CadastroAluno></CadastroAluno>
-    ):pagina === 3 ? (
-      <CadastroProfessor></CadastroProfessor>
-    ):(
-      <View/>
-    )}
-*/
