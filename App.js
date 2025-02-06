@@ -9,24 +9,24 @@ import CadastroProfessor from './src/CadastroProfessor';
 export default function App() {
   const [pagina, setPagina] =  useState(0);
   const [keySessao, setkeySessao] = useState(0);
-
+  const [login, setLogin] = useState(0);
 
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
-        {pagina === 0 ? (
+        {login === 0 ? (
           <Login></Login>
-            ):  pagina === 1 ? (
-              <SeletorCadastro></SeletorCadastro>
-            ): pagina === 2 ? (
-              <CadastroAluno></CadastroAluno>
-            ):pagina === 3 ? (
-              <CadastroProfessor></CadastroProfessor>
-            ):(
-              <View/>
-            )}
-        </View>
+        ): login === 1 ?(
+          <SeletorCadastro></SeletorCadastro>
+        ): login === 2 ? (
+          <CadastroAluno></CadastroAluno>
+        ): login === 3 ? (
+          <CadastroProfessor></CadastroProfessor>
+        ): (
+          <View/>
+        )}
+      </View>
     </SafeAreaView>
   );
 }
@@ -34,7 +34,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(255,80,80,255)',
+    backgroundColor: 'rgba(255,255,255,255)',
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   mainContent: {
@@ -43,3 +43,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(100,100,100,150)',
   },
 });
+
+/** 
+{pagina === 0 ? (
+  <Login></Login>
+    ):  pagina === 1 ? (
+      <SeletorCadastro></SeletorCadastro>
+    ): pagina === 2 ? (
+      <CadastroAluno></CadastroAluno>
+    ):pagina === 3 ? (
+      <CadastroProfessor></CadastroProfessor>
+    ):(
+      <View/>
+    )}
+*/
