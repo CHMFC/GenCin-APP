@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { login } from "../functions/api";
 
-export default function LoginScreen({ onLogin }) {
+export default function LoginScreen({ onLogin, onPag }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const [email, setEmail] = useState("");
@@ -26,10 +26,17 @@ export default function LoginScreen({ onLogin }) {
             onLogin(resposta);
 
         } catch (error){
-            console.error("Erro ao fazer login: ", error);
             setErrado(1);
         }
 
+    }
+
+    const goToCadastro = async () => {
+        try {
+            onPag(1)
+        } catch (error){
+            
+        }
     }
 
 
@@ -111,7 +118,7 @@ export default function LoginScreen({ onLogin }) {
             </TouchableOpacity>
 
             {/* Texto: "Ainda não tem conta? Cadastre-se!" */}
-            <TouchableOpacity style = {styles.viewCadastreSe}>
+            <TouchableOpacity style = {styles.viewCadastreSe} onPress={goToCadastro}>
                 <Text style = {styles.textCadastreSe}>
                     Ainda não tem conta? Cadastre-se!
                 </Text>

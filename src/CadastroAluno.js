@@ -15,9 +15,17 @@ import {
 // Pegando as dimensões da tela
 const { width, height } = Dimensions.get('window');
 
-export default function CadastroProfessor() {
+export default function CadastroProfessor({onPag}) {
 
     const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const goToLogin = async () => {
+      try {
+          onPag(0)
+      } catch (error){
+          
+      }
+  }
     
     return( 
         /* KeyboardAvoidingView para evitar que o teclado cubra o conteúdo */
@@ -120,7 +128,7 @@ export default function CadastroProfessor() {
             
                     {/* Container do link Já tenho conta */}
                     <View style={styles.linkContainer}>
-                        <TouchableOpacity style={styles.link}>
+                        <TouchableOpacity style={styles.link} onPress={goToLogin}>
                             <Text style={styles.linkText}>Já tenho conta! Quero fazer login</Text>
                         </TouchableOpacity>
                     </View>

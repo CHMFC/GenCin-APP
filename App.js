@@ -21,18 +21,22 @@ export default function App() {
     setLogin(4);
   }
 
+  const goToLogin = (page) => {
+    setLogin(page);
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
         {login === 0 ? (
-          <Login onLogin={handleLogin}></Login>
+          <Login onLogin={handleLogin} onPag={goToLogin}></Login>
         ): login === 1 ?(
-          <SeletorCadastro></SeletorCadastro>
+          <SeletorCadastro onPag={goToLogin}></SeletorCadastro>
         ): login === 2 ? (
-          <CadastroAluno></CadastroAluno>
+          <CadastroAluno onPag={goToLogin}></CadastroAluno>
         ): login === 3 ? (
-          <CadastroProfessor></CadastroProfessor>
+          <CadastroProfessor onPag={goToLogin}></CadastroProfessor>
         ): (
           <View>
             <View style={styles.barraSuperior}>
@@ -41,7 +45,7 @@ export default function App() {
 
             <View style={styles.conteudoCentral}>
               {pagina === 0 ? (
-                <Home sessaoKey={keySessao} ></Home>
+                <Home sessaoKey={keySessao} onLogin={goToLogin}></Home>
               ): (
                 <View></View>
               )}

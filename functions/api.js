@@ -13,7 +13,6 @@ export async function login(user, senha) {
 
         return await resposta.text();
     } catch (error) {
-        console.error("Error na função de Login", error);
         throw error;
     }
     

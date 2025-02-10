@@ -7,7 +7,31 @@ import {
     TouchableOpacity
 } from "react-native";
 
-export default function SeletorCadastro() {
+export default function SeletorCadastro({onPag}) {
+
+    const goToLogin = async () => {
+        try {
+            onPag(0)
+        } catch (error){
+            
+        }
+    }
+
+    const goToCadastroProfessor = async () => {
+        try {
+            onPag(3)
+        } catch (error){
+            
+        }
+    }
+
+    const goToCadastroAluno = async () => {
+        try {
+            onPag(2)
+        } catch (error){
+            
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -35,7 +59,7 @@ export default function SeletorCadastro() {
             </View>
 
             {/* Botão para "Eu sou aluno" */}
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={goToCadastroAluno}>
                 <Image
                     source={require('../assets/EuSouAluno.png')}
                     style={styles.imagemBotao}
@@ -46,7 +70,7 @@ export default function SeletorCadastro() {
             </TouchableOpacity>
 
             {/* Botão para "Eu sou professor" */}
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={goToCadastroProfessor}>
                 <Image
                     source={require('../assets/EuSouProfessor.png')}
                     style={styles.imagemBotao}
@@ -57,7 +81,7 @@ export default function SeletorCadastro() {
             </TouchableOpacity>
 
             {/*Texto: "Já possui uma conta?"*/}
-            <TouchableOpacity style={styles.viewJaTenhoConta}>
+            <TouchableOpacity style={styles.viewJaTenhoConta} onPress={goToLogin}>
                 <Text style={styles.textJaTenhoConta}>
                     Já possui uma conta?
                 </Text>

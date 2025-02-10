@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, TouchableOpaci
 import { Ionicons } from '@expo/vector-icons'; // Importando o Ionicons
 import { getInfo } from '../functions/api';
 
-export default function Home({sessaoKey}) {
+export default function Home({sessaoKey, onLogin, onPag}) {
 
   const [nome,setNome] = useState("");
 
@@ -15,7 +15,7 @@ export default function Home({sessaoKey}) {
     try {
       if (!sessaoKey) {
         console.warn("Nenhuma sessaoKey encontrada!");
-        return;
+        
       }
       const info = await getInfo(sessaoKey); 
       setNome(info[0])
