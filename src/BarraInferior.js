@@ -2,9 +2,9 @@ import * as React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
-export default function BarraInferior() {
+export default function BarraInferior({onPag}) {
   const handleHomePress = () => {
-    console.log('Home Clicado!');
+    onPag(0);
   };
 
   const handleTurmasPress = () => {
@@ -12,7 +12,7 @@ export default function BarraInferior() {
   };
 
   const handlePerfilPress = () => {
-    console.log('Perfil Clicado!');
+    onPag(2);
   };
 
   const handleConfiguracoesPress = () => {

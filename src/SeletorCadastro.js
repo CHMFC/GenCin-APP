@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     textJaTenhoConta: {
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
-        fontSize: 16,
+        fontSize: 20,
         textDecorationLine: "underline",
     },
 });

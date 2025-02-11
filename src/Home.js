@@ -15,7 +15,7 @@ export default function Home({sessaoKey, onLogin, onPag}) {
     try {
       if (!sessaoKey) {
         console.warn("Nenhuma sessaoKey encontrada!");
-        
+        onLogin(0);
       }
       const info = await getInfo(sessaoKey); 
       setNome(info[0])

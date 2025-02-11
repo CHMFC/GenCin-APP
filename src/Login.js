@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
         textAlign: "center",
-        fontSize: 16,
+        fontSize: 20,
         textDecorationLine: "underline",
     },
 });
