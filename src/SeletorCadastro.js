@@ -6,7 +6,6 @@ import {
     Image,
     TouchableOpacity
 } from "react-native";
-
 export default function SeletorCadastro({onPag}) {
 
     const goToLogin = async () => {
@@ -35,7 +34,6 @@ export default function SeletorCadastro({onPag}) {
 
     return (
         <View style={styles.container}>
-
             {/* Logo */}
             <View style={styles.viewLogo}>
                 <Image
