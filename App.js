@@ -10,6 +10,7 @@ import BarraSuperior from './src/BarraSuperior';
 import BarraInferior from './src/BarraInferior';
 import AdicionarTurmaAluno from './src/AdicionarTurmaAluno';
 import Turmas from './src/Turmas';
+import Perfil from './src/Perfil';
 
 export default function App() {
   const [pagina, setPagina] =  useState(0);
@@ -19,10 +20,15 @@ export default function App() {
   const handleLogin = (key) => {
     setkeySessao(key);
     setLogin(4);
+    setPagina(0);
   }
 
   const goToLogin = (page) => {
     setLogin(page);
+  }
+
+  const goToPage = (page) => {
+    setPagina(page);
   }
 
 
@@ -45,7 +51,9 @@ export default function App() {
 
             <View style={styles.conteudoCentral}>
               {pagina === 0 ? (
-                <Home sessaoKey={keySessao} onLogin={goToLogin}></Home>
+                <Home sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Home>
+              ): pagina === 2 ? (
+                <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
               ): (
                 <View></View>
               )}
@@ -53,7 +61,7 @@ export default function App() {
             </View>
 
             <View style={styles.barraInferior}>
-              <BarraInferior></BarraInferior>
+              <BarraInferior onPag={goToPage}></BarraInferior>
             </View>
           </View>
         )}
