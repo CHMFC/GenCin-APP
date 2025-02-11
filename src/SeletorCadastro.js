@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity
 } from "react-native";
+export default function SeletorCadastro({onPag}) {
 
 export default function SeletorCadastro({onPag}) {
 
