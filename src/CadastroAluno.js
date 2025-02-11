@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { cadastroAluno } from "../functions/api";
 
+
 const { width, height } = Dimensions.get("window");
 
 export default function CadastroAluno({ onPag }) {

@@ -8,6 +8,8 @@ import {
 } from "react-native";
 export default function SeletorCadastro({onPag}) {
 
+export default function SeletorCadastro({onPag}) {
+
     const goToLogin = async () => {
         try {
             onPag(0)
@@ -34,6 +36,7 @@ export default function SeletorCadastro({onPag}) {
 
     return (
         <View style={styles.container}>
+
             {/* Logo */}
             <View style={styles.viewLogo}>
                 <Image
