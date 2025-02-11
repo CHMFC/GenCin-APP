@@ -1,69 +1,93 @@
-import React from 'react';
+import React from 'react'; 
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useWindowDimensions } from 'react-native';
 
 export default function Agenda() {
   const { width: windowWidth } = useWindowDimensions();
-  const isWideScreen = windowWidth > 768; // Define se a tela é grande para ajustar os estilos
+  const isWideScreen = windowWidth > 768;
+
+  const fullDayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+  // Array de horários personalizados com texto que pode ser alterado
+  const customSchedule = [
+    { time: '13:00', dayIndex: 5, content: 'Redes Neurais' },
+    { time: '13:00', dayIndex: 1, content: 'Redes Neurais' },
+    { time: '17:00', dayIndex: 1, content: 'Banco De Dados' },
+    { time: '18:50', dayIndex: 3, content: 'Banco De Dados' },
+    { time: '18:50', dayIndex: 1, content: 'Engenharia De Software' },
+    { time: '17:00', dayIndex: 3, content: 'Engenharia De Software' },
+    { time: '17:00', dayIndex: 2, content: 'Gestão De Processos De Negócio' },
+    { time: '18:50', dayIndex: 4, content: 'Gestão De Processos De Negócio' },
+    { time: '17:00', dayIndex: 4, content: 'Sistema De Gestão Empresarial' },
+    { time: '18:50', dayIndex: 2, content: 'Sistema De Gestão Empresarial' },
+    { time: '17:00', dayIndex: 5, content: 'Planejamento E Gerenciamento De Projetos' },
+    { time: '18:50', dayIndex: 5, content: 'Planejamento E Gerenciamento De Projetos' },
+    
+  
+  ];
 
   // Função para determinar o conteúdo de cada célula baseado no horário e no dia
-  const getCellContent = (hourIndex, dayIndex) => {
-    if (hourIndex === 1 && dayIndex === 2) {
-      return 'Aula de Matemática';
-    }
-    if (hourIndex === 2 && dayIndex === 4) {
-      return 'Aula de Física';
-    }
-    return '';
+  const getCellContent = (time, dayIndex) => {
+    const classData = customSchedule.filter(item => item.time === time && item.dayIndex === dayIndex);
+    return classData.length > 0 ? classData.map(item => item.content).join(', ') : ''; // Retorna o conteúdo da aula ou vazio se não houver
   };
 
-  // Estilos dinâmicos para ajustar a largura do contêiner principal em telas maiores
-  const dynamicStyles = {
-    formContainer: {
-      ...styles.formContainer,
-      maxWidth: isWideScreen ? 600 : '100%', // Ajusta largura com base no tamanho da tela
-    },
-  };
+  // Agrupar por horário
+  const groupedSchedule = customSchedule.reduce((acc, item) => {
+    if (!acc[item.time]) {
+      acc[item.time] = [];
+    }
+    acc[item.time].push(item); // Adiciona a aula ao horário correspondente
+    return acc;
+  }, {});
+
+  // Geração da grade com horários, dias da semana e conteúdos
+  const schedule = Object.keys(groupedSchedule).map(time => {
+    return {
+      time,
+      days: groupedSchedule[time],
+    };
+  });
+
+  // Filtra os dias da semana que possuem aulas
+  const activeDays = Array.from({ length: 7 }, (_, dayIndex) =>
+    schedule.some(row => row.days.some(cell => cell.dayIndex === dayIndex)) ? dayIndex : null
+  ).filter(index => index !== null);
 
   return (
-    <View style={dynamicStyles.formContainer}>
-      {/* ScrollView para garantir que o conteúdo será rolável verticalmente */}
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.grid}>
-          {/* Linha de cabeçalho com os dias da semana */}
+          {/* Cabeçalho com os dias da semana ativos */}
           <View style={styles.row}>
-            <View style={[styles.cell, styles.dayCell]}>
-              <Text style={styles.cellText}></Text>
+            <View style={[styles.cell, styles.headerCell]}>
+              <Text style={styles.cellText}>Horário</Text>
             </View>
-            {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((day, index) => (
-              <View key={index} style={[styles.cell, styles.headerCell]}>
-                <Text style={styles.cellText}>{day}</Text>
+            {activeDays.map(dayIndex => (
+              <View key={dayIndex} style={[styles.cell, styles.headerCell]}>
+                <Text style={styles.cellText}>{fullDayNames[dayIndex]}</Text>
               </View>
             ))}
           </View>
 
-          {/* Linhas de horários com células para cada dia da semana */}
-          {Array.from({ length: 24 }, (_, hourIndex) => (
-            <View key={hourIndex} style={styles.row}>
-              {/* Célula de horário na primeira coluna */}
+          {/* Linhas de horários com células somente para dias com aulas */}
+          {schedule.map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.row}>
               <View style={[styles.cell, styles.hourCell]}>
-                <Text style={styles.hourText}>{hourIndex}:00</Text>
+                <Text style={styles.hourText}>{row.time}</Text>
               </View>
-
-              {/* Células para os dias da semana */}
-              {Array.from({ length: 7 }, (_, dayIndex) => {
-                const cellContent = getCellContent(hourIndex, dayIndex);
-                const isClass = cellContent !== ''; // Verifica se a célula contém aula
+              {activeDays.map(dayIndex => {
+                const classData = row.days.find(item => item.dayIndex === dayIndex);
                 return (
                   <View
                     key={dayIndex}
                     style={[
                       styles.cell,
-                      isClass && styles.classCell, // Aplica estilo especial para aulas
+                      classData ? styles.classCell : {},
                     ]}
                   >
-                    <Text style={[styles.cellText, isClass && styles.classText]}>
-                      {cellContent}
+                    <Text style={classData ? styles.classText : styles.cellText}>
+                      {classData ? classData.content : ''}
                     </Text>
                   </View>
                 );
@@ -77,93 +101,81 @@ export default function Agenda() {
 }
 
 const styles = StyleSheet.create({
-  // Configurações do contêiner principal
-  formContainer: {
-    justifyContent: 'flex-start',
+  container: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: '4%',
-    paddingRight: '4%',
-    paddingTop: '6%',
-    paddingBottom: '6%',
-    backgroundColor: '#FFFFFF', // Cor de fundo do contêiner principal
-    width: '100%',
-    alignSelf: 'center',
-    paddingTop: 100,
-    paddingBottom: 80,
+    paddingHorizontal: 16,
+    
   },
-  // Configurações do conteúdo rolável
   scrollViewContent: {
-    paddingVertical: 20,
+    flexGrow: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
   },
-  // Grade principal que contém os horários e dias
   grid: {
-    flexDirection: 'column', // Organiza a grid verticalmente
+    flexDirection: 'column',
     width: '100%',
-    alignItems: 'center', // Centraliza o conteúdo dentro da grade
-    borderRadius: 10, // Bordas arredondadas na grade
-    overflow: 'hidden', // Impede que o conteúdo extrapole as bordas
-    borderWidth: 1, // Borda em volta da grade
-    borderColor: 'black', // Cor da borda
+    alignItems: 'center',
+    borderRadius: 13,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#545759',
+    backgroundColor: '#545759',
+    padding: 4,
   },
-  // Configuração para cada linha (horários e dias)
   row: {
-    flexDirection: 'row', // Organiza as células horizontalmente
-    width: '100%', // Linha ocupa toda a largura disponível
-    justifyContent: 'center', // Centraliza as células
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
-  // Células de horário na primeira coluna
+  headerCell: {
+    
+    backgroundColor: 'white',
+    fontWeight: 'bold',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#444',
+  },
   hourCell: {
-    width: 60, // Largura fixa para as células de horário
+    width: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'white', // Fundo branco
-    height: 40, // Altura fixa
+    backgroundColor: 'white',
+    height: 40,
   },
   hourText: {
     fontSize: 14,
-    color: '#333333', // Cor do texto
+    color: '#black',
+    fontWeight: 'bold',
   },
-  // Estilos padrão para todas as células
   cell: {
-    flex: 1, // Células ocupam largura igual (tamanho flexível)
-    height: 40, // Altura fixa
+    flex: 1,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: 'black',
-    backgroundColor: '#D9D9D9', // Fundo cinza claro
+    backgroundColor: '#D9D9D9',
   },
-  // Estilo para a célula "Dia" no cabeçalho
-  dayCell: {
-    backgroundColor: '#F5F5F5', // Fundo mais claro para destaque
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontWeight: 'bold', // Texto em negrito
-    height: 40, // Altura fixa
-    width: 60, // Largura fixa
+  classCell: {
+    backgroundColor: '#4CAF50',
   },
-  // Estilo para células do cabeçalho (dias da semana)
-  headerCell: {
-    backgroundColor: 'white', // Fundo branco
-    fontWeight: 'bold', // Texto em negrito
-    height: 40, // Altura fixa
+  classText: {
+    color: 'white',
+    fontSize: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
-  // Texto padrão para as células
   cellText: {
-    color: '#333',
+    color: '#121212',
     fontSize: 12,
     textAlign: 'center',
-  },
-  // Estilo especial para células com aulas
-  classCell: {
-    backgroundColor: 'green', // Fundo verde para células com aulas
-  },
-  // Texto especial para células com aulas
-  classText: {
-    color: 'white', // Texto branco
   },
 });
