@@ -6,12 +6,34 @@ import {
     Image,
     TouchableOpacity
 } from "react-native";
+export default function SeletorCadastro({onPag}) {
 
-export default function SeletorCadastro() {
+    const goToLogin = async () => {
+        try {
+            onPag(0)
+        } catch (error){
+            
+        }
+    }
+
+    const goToCadastroProfessor = async () => {
+        try {
+            onPag(3)
+        } catch (error){
+            
+        }
+    }
+
+    const goToCadastroAluno = async () => {
+        try {
+            onPag(2)
+        } catch (error){
+            
+        }
+    }
 
     return (
         <View style={styles.container}>
-
             {/* Logo */}
             <View style={styles.viewLogo}>
                 <Image
@@ -35,7 +57,7 @@ export default function SeletorCadastro() {
             </View>
 
             {/* Botão para "Eu sou aluno" */}
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={goToCadastroAluno}>
                 <Image
                     source={require('../assets/EuSouAluno.png')}
                     style={styles.imagemBotao}
@@ -46,7 +68,7 @@ export default function SeletorCadastro() {
             </TouchableOpacity>
 
             {/* Botão para "Eu sou professor" */}
-            <TouchableOpacity style={styles.botao}>
+            <TouchableOpacity style={styles.botao} onPress={goToCadastroProfessor}>
                 <Image
                     source={require('../assets/EuSouProfessor.png')}
                     style={styles.imagemBotao}
@@ -57,7 +79,7 @@ export default function SeletorCadastro() {
             </TouchableOpacity>
 
             {/*Texto: "Já possui uma conta?"*/}
-            <TouchableOpacity style={styles.viewJaTenhoConta}>
+            <TouchableOpacity style={styles.viewJaTenhoConta} onPress={goToLogin}>
                 <Text style={styles.textJaTenhoConta}>
                     Já possui uma conta?
                 </Text>
@@ -140,7 +162,7 @@ const styles = StyleSheet.create({
     textJaTenhoConta: {
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
-        fontSize: 16,
+        fontSize: 20,
         textDecorationLine: "underline",
     },
 });

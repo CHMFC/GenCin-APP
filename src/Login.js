@@ -7,9 +7,39 @@ import {
     TextInput,
     TouchableOpacity,
 } from "react-native";
+import { login } from "../functions/api";
 
-export default function LoginScreen() {
+export default function LoginScreen({ onLogin, onPag }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+
+    const [errado, setErrado] = useState(0);
+
+
+    const handleLogin = async () => {
+
+        try {
+
+            const resposta = await login(email, senha);
+            onLogin(resposta);
+
+        } catch (error){
+            setErrado(1);
+        }
+
+    }
+
+    const goToCadastro = async () => {
+        try {
+            onPag(1)
+        } catch (error){
+            
+        }
+    }
+
+
     return (
         <View style={styles.container}>
             {/* Logo */}
@@ -19,6 +49,16 @@ export default function LoginScreen() {
                     style = {styles.logo}
                 />
             </View>
+
+            {errado === 1 ? (
+                <View>
+                    <Text>
+                        Usuário ou Senha Incorreto
+                    </Text>
+                </View>
+            ):(
+                <View/>
+            )}
 
             {/* Campo do Email */}
             <View style = {styles.viewEmail}>
@@ -30,6 +70,8 @@ export default function LoginScreen() {
                     placeholder = "email@email.com"
                     placeholderTextColor = "rgba(169, 169, 169, 255)"
                     keyboardType = "email-address"
+                    value={email}
+                    onChangeText={setEmail}
                 />
             </View>
 
@@ -42,6 +84,8 @@ export default function LoginScreen() {
                         placeholder="senha"
                         placeholderTextColor="rgba(169, 169, 169, 255)"
                         secureTextEntry={!passwordVisible}
+                        value={senha}
+                        onChangeText={setSenha}
                     />
                     <TouchableOpacity
                         style={styles.buttonOlhoSenha}
@@ -67,14 +111,14 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             {/* Botão para entrar/login */}
-            <TouchableOpacity style = {styles.viewBotaoEntrar}>
+            <TouchableOpacity style = {styles.viewBotaoEntrar} onPress={handleLogin}>
                 <Text style = {styles.textBotaoEntrar}>
                     Entrar
                 </Text>
             </TouchableOpacity>
 
             {/* Texto: "Ainda não tem conta? Cadastre-se!" */}
-            <TouchableOpacity style = {styles.viewCadastreSe}>
+            <TouchableOpacity style = {styles.viewCadastreSe} onPress={goToCadastro}>
                 <Text style = {styles.textCadastreSe}>
                     Ainda não tem conta? Cadastre-se!
                 </Text>
@@ -84,6 +128,7 @@ export default function LoginScreen() {
     );
 }
 
+// Estilos do aplicativo
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -198,7 +243,9 @@ const styles = StyleSheet.create({
         color: "rgba(255, 255, 255, 255)",
         fontFamily: "Roboto",
         textAlign: "center",
-        fontSize: 16,
+        fontSize: 20,
         textDecorationLine: "underline",
     },
 });
+
+//ok
