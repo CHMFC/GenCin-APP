@@ -7,11 +7,11 @@ import { useState } from 'react';
 export default function AlunoVisualizarAtividade() {
   const [entregue, setEntregue] = useState(false);
 
-  const handleEntrarNaTurmaClick = () => {
+  const handleSair = () => {
     console.log('Saiu da Pagina!');
   };
 
-  const handleAdicionarTurmaClick = () => {
+  const handleInstrucoes = () => {
     console.log('Abriu Instruções');
   };
 
@@ -32,7 +32,7 @@ export default function AlunoVisualizarAtividade() {
         
       {/* Botão sair + Titulo Pagina + prazo */}         
       <View style={styles.TituloFlexBox}>
-      <TouchableOpacity style={styles.chevronButton} onPress={handleEntrarNaTurmaClick}>
+      <TouchableOpacity style={styles.chevronButton} onPress={handleSair}>
         <Ionicons name='chevron-back' size={24} color='#545759' />
       </TouchableOpacity>
       
@@ -52,7 +52,7 @@ export default function AlunoVisualizarAtividade() {
          {/* Anexo */}
          <View>
             <Text style={[styles.Titulo]}>Anexo</Text>
-            <TouchableOpacity style={styles.AnexoFlexBox} onPress={handleAdicionarTurmaClick}>
+            <TouchableOpacity style={styles.AnexoFlexBox} onPress={handleInstrucoes}>
                 <View style={styles.Pdf}>
                     <Text style={styles.Pdf_texto}>PDF.</Text>
                 </View>
@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     paddingRight: 110,
     fontSize: 16,
     color: "#545759",
-
   },
   DescricaoFlexBox: {
     flexDirection: 'row',
