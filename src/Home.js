@@ -29,6 +29,10 @@ export default function Home({sessaoKey, onLogin, onPag}) {
     handleGetInfo();
   })
 
+  const handleAgenda = () => {
+    onPag(5);
+  }
+
   return (
     <SafeAreaView style={styles.containerSafe}>
       <ScrollView contentContainerStyle={styles.containerScroll}>
@@ -44,6 +48,14 @@ export default function Home({sessaoKey, onLogin, onPag}) {
             />
           </View>
         </View>
+
+        <TouchableOpacity onPress={handleAgenda}>
+          <View>
+            <Text>
+              AQUI TERÁ UM BOTÃO ( AS BOLINHA )
+            </Text>
+          </View>
+        </TouchableOpacity>
 
         {/* Atividades em aberto */}
         <View style={styles.containerAtividadesPrincipal}>

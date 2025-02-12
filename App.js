@@ -11,6 +11,7 @@ import BarraInferior from './src/BarraInferior';
 import AdicionarTurmaAluno from './src/AdicionarTurmaAluno';
 import Turmas from './src/Turmas';
 import Perfil from './src/Perfil';
+import Agenda from './src/Agenda';
 
 export default function App() {
   const [pagina, setPagina] =  useState(0);
@@ -37,7 +38,7 @@ export default function App() {
       <View style={styles.mainContent}>
         {login === 0 ? (
           <Login onLogin={handleLogin} onPag={goToLogin}></Login>
-        ): login === 1 ?(
+        ): login === 1 ?( 
           <SeletorCadastro onPag={goToLogin}></SeletorCadastro>
         ): login === 2 ? (
           <CadastroAluno onPag={goToLogin}></CadastroAluno>
@@ -54,6 +55,8 @@ export default function App() {
                 <Home sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Home>
               ): pagina === 2 ? (
                 <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
+              ): pagina === 5 ? (
+                <Agenda sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Agenda>
               ): (
                 <View></View>
               )}
