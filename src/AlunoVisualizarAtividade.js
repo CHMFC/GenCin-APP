@@ -75,8 +75,8 @@ export default function AlunoVisualizarAtividade() {
 
         {/*Entregar Atividade + Cancelar Envio*/}
           <View style={styles.buttonEntregar}>
-                    <TouchableOpacity style={[styles.button, entregue && styles.buttonCancelado]}  onPress={handleEntregarAtividade}>
-                      <Text style={[styles.buttonText, entregue && styles.buttonTextCancelado]}>{entregue ? "Cancelar envio" : "Entregar Atividade"}</Text>
+                    <TouchableOpacity style={[styles.button]}>
+                      <Text style={[styles.buttonText]}>Entregar Atividade</Text>
                     </TouchableOpacity>
                   </View>
         </View>
