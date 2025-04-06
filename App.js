@@ -9,13 +9,15 @@ import Home from './src/Home';
 import BarraSuperior from './src/BarraSuperior';
 import BarraInferior from './src/BarraInferior';
 import AdicionarTurmaAluno from './src/AdicionarTurmaAluno';
+import AdicionarTurmaProfessor from './src/AdicionarTurmaProfessor';
+import VisualizarTurmaProfessor from './src/VisualizarTurmaProfessor';
 import Turmas from './src/Turmas';
 import Perfil from './src/Perfil';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(0);
+  const [pagina, setPagina] =  useState(3);
   const [keySessao, setkeySessao] = useState(0);
-  const [login, setLogin] = useState(0);
+  const [login, setLogin] = useState(4);
 
   const handleLogin = (key) => {
     setkeySessao(key);
@@ -54,6 +56,12 @@ export default function App() {
                 <Home sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Home>
               ): pagina === 2 ? (
                 <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
+              ): pagina == 3 ? (
+                <AdicionarTurmaProfessor sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></AdicionarTurmaProfessor>
+              ): pagina == 4 ? (
+                <VisualizarTurmaProfessor sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></VisualizarTurmaProfessor>
+              ): pagina == 5 ? (
+                <AdicionarTurmaAluno sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></AdicionarTurmaAluno>
               ): (
                 <View></View>
               )}
