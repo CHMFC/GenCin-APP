@@ -4,130 +4,209 @@ import {
     StyleSheet,
     Text,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    FlatList,
+    SafeAreaView,
 } from "react-native";
 
-export default function Perfil() {
+export default function TelaPerfil({ navigation, route }) {
+
+    // Sem vínculo com banco de dados, o estado inicial é vazio
+    const usuario = route?.params?.usuario || {
+        nome: "",
+        email: "",
+        matricula: "",
+        turmas: [],
+    };
+
+    const turmasHoje = usuario.turmas.filter(t => (t.aulasHoje || []).length > 0);
 
     return (
+        <SafeAreaView style={estilos.container}>
 
-        <View style={styles.container}>
+            {/* Bloco do perfil */}
+            <View style={estilos.blocoPerfil}>
 
-            {/* Bloco do Perfil */}
-            <View style={styles.viewBlocoPerfil}>
+                {/* Imagem do perfil */}
+                <Image
+                    style={estilos.imagemPerfil}
+                    source={require("../assets/DefaultUser.jpg")}
+                />
 
-                {/* Foto do Perfil */}
-                <View style={styles.viewImagemUsuario}>
-                    <Image
-                        source={require("../assets/DefaultUser.jpg")}
-                        style = {styles.imageImagemUsuario}
-                    />
-                </View>
-
-                {/* Nome do Usuário */}
-                <Text style={styles.textNomeUsuario}>
-                    [Nome do Usuário]
-                </Text>
-
-                {/* Email do Usuário */}
-                <Text style={styles.textEmailUsuario}>
-                    [email@email.com]
-                </Text>
-
-                {/* Bloco de Informações */}
-                <View style={styles.viewInformacoes}>
-
-                    {/* Texto: "[Departamento]" */}
-                    <Text style={styles.textDepartamentoUsuario}>
-                        [Departamento]
+                {/* Bloco de informações */}
+                <View style={estilos.blocoInformacoes}>
+                    <Text style={estilos.textoPerfil}>
+                        {usuario.nome || "nome do usuário"}
                     </Text>
-
+                    <Text style={estilos.textoPerfil}>
+                        {usuario.email || "email@email.com"}
+                    </Text>
+                    <Text style={estilos.textoPerfil}>
+                        {usuario.matricula || "12345678900"}
+                    </Text>
                 </View>
-
             </View>
 
-            {/* Bloco fixo que fica embaixo */}
-            <View style={styles.viewBlocoFixoInferior}>
+            {/* Bloco de Turmas */}
+            <View style={estilos.blocoCurto}>
+                <Text style={estilos.textoBloco}>Turmas</Text>
+                <Text style={estilos.textoBloco}>{usuario.turmas.length}</Text>
+            </View>
 
-                {/* Botão de Editar Perfil */}
-                <TouchableOpacity style={styles.viewBotaoEditarPerfil}>
-                    <Text style={styles.textBotaoEditarPerfil}>
+            {/* Bloco de Aulas Hoje */}
+            <View style={estilos.blocoAulas}>
+                <Text style={estilos.tituloBloco}>Aulas Hoje</Text>
+                {turmasHoje.length === 0 ? (
+                    <Text style={estilos.semAulas}>Você não possui aulas hoje</Text>
+                ) : (
+                    <FlatList
+                        data={turmasHoje}
+                        keyExtractor={t => t.id}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={estilos.cartaoAula}
+                                onPress={() =>
+                                    navigation.navigate("DetalheAula", { turma: item })
+                                }
+                            >
+                                <Text style={estilos.nomeTurma}>{item.nome}</Text>
+                                <Text style={estilos.horario}>
+                                    {(item.aulasHoje || []).join(", ")}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                    />
+                )}
+            </View>
+
+            {/* Bloco inferior fixo */}
+            <View style={estilos.blocoFixoInferior}>
+
+                <TouchableOpacity style={estilos.botaoEditarPerfil}>
+                    <Text style={estilos.textoBotaoEditar}>
                         Editar Perfil
                     </Text>
                 </TouchableOpacity>
 
-                {/* Texto: "Sair da conta" */}
-                <TouchableOpacity style={styles.viewSairConta}>
-                    <Text style={styles.textSairConta}>
+                <TouchableOpacity style={estilos.blocoSairConta}>
+                    <Text style={estilos.textoSairConta}>
                         Sair da conta
                     </Text>
                 </TouchableOpacity>
 
             </View>
-        </View>
 
+        </SafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({
-
+const estilos = StyleSheet.create({
     container: {
-        backgroundColor: "rgba(242, 242, 242, 255)",
-        flex: 1,
-    },
-
-    viewBlocoPerfil: {
-        flex: 1,
+        backgroundColor: "rgba(244, 244, 244, 1)",
         alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
     },
 
-    viewImagemUsuario: {
-        marginTop: 50,
-        marginBottom: 28,
-    },
-    imageImagemUsuario: {
-        backgroundColor: "rgba(224, 224, 224, 255)",
-        width: 128,
-        height: 128,
-        borderRadius: 64,
-    },
-
-    textNomeUsuario: {
-        color: "rgba(84, 87, 89, 255)",
-        fontSize: 25,
-        fontWeight: "700",
-        marginBottom: 5,
-    },
-
-    textEmailUsuario: {
-        color: "rgba(84, 87, 89, 255)",
-        fontSize: 18,
-        marginBottom: 80,
-    },
-
-    viewInformacoes: {
-        backgroundColor: "rgba(255, 255, 255, 255)",
-        width: "90%",
-        borderRadius: 10,
-        paddingTop: 25,
-        paddingBottom: 30,
-        paddingHorizontal: 25,
-        shadowColor: "rgba(0, 0, 0, 255)",
+    blocoPerfil: {
+        backgroundColor: "rgba(255, 255, 255, 1)",
+        flexDirection: "row",
+        width: "85%",
+        borderRadius: 8,
+        shadowColor: "rgba(0, 0, 0, 1)",
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 2,
-        alignItems: "center",
+        padding: 10,
+        marginTop: 45,
+        marginBottom: 25,
+    },
+
+    imagemPerfil: {
+        backgroundColor: "rgba(206, 17, 17, 1)",
+        width: 128,
+        height: 128,
+        borderRadius: 64,
+        resizeMode: "contain",
+    },
+
+    blocoInformacoes: {
+        flexDirection: "column",
+        alignItems: "flex-start",
         justifyContent: "center",
+        marginLeft: 25,
+        marginTop: 15,
+        marginBottom: 15,
     },
 
-    textDepartamentoUsuario: {
-        color: "rgba(51, 51, 51, 255)",
-        fontSize: 25,
+    textoPerfil: {
+        color: "rgba(51, 51, 51, 1)",
+        fontFamily: "Roboto",
+        fontSize: 18,
+        fontWeight: "500",
+        margin: 5,
+    },
+
+    blocoCurto: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "85%",
+        backgroundColor: "rgba(255, 255, 255, 1)",
+        padding: 12,
+        borderRadius: 8,
+        marginTop: 16,
+        elevation: 1,
+    },
+
+    textoBloco: {
+        fontSize: 18,
+        fontWeight: "600",
+        color: "rgba(51, 51, 51, 1)",
+    },
+
+    blocoAulas: {
+        width: "85%",
+        marginTop: 35,
+        flex: 1,
+    },
+
+    tituloBloco: {
+        fontSize: 18,
         fontWeight: "700",
+        color: "rgba(51, 51, 51, 1)",
+        marginBottom: 8,
     },
 
-    viewBlocoFixoInferior: {
-        backgroundColor: "rgba(242, 242, 242, 255)",
+    semAulas: {
+        fontSize: 16,
+        color: "rgba(102, 102, 102, 1)",
+        textAlign: "center",
+        marginTop: 35,
+    },
+
+    cartaoAula: {
+        backgroundColor: "rgba(255, 255, 255, 1)",
+        padding: 12,
+        borderRadius: 8,
+        marginBottom: 10,
+        elevation: 1,
+    },
+
+    nomeTurma: {
+        fontSize: 16,
+        fontWeight: "700",
+        color: "rgba(51, 51, 51, 1)",
+    },
+
+    horario: {
+        fontSize: 14,
+        color: "rgba(85, 85, 85, 1)",
+        marginTop: 4,
+    },
+
+    blocoFixoInferior: {
+        backgroundColor: "rgba(242, 242, 242, 1)",
         position: "absolute",
         bottom: 0,
         left: 0,
@@ -136,30 +215,31 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
 
-    viewBotaoEditarPerfil: {
-        backgroundColor: "rgba(0, 123, 255, 255)",
+    botaoEditarPerfil: {
+        backgroundColor: "rgba(0, 123, 255, 1)",
         width: 328,
         alignItems: "center",
         borderRadius: 8,
         paddingVertical: 15,
         marginBottom: 20,
     },
-    textBotaoEditarPerfil: {
-        color: "rgba(255, 255, 255, 255)",
+
+    textoBotaoEditar: {
+        color: "rgba(255, 255, 255, 1)",
         fontFamily: "Roboto",
         fontSize: 18,
         fontWeight: "700",
     },
 
-    viewSairConta: {
+    blocoSairConta: {
         alignItems: "center",
     },
-    textSairConta: {
-        color: "rgba(84, 87, 89, 255)",
+
+    textoSairConta: {
+        color: "rgba(84, 87, 89, 1)",
         fontFamily: "Roboto",
         textAlign: "center",
         fontSize: 16,
         textDecorationLine: "underline",
     },
-
 });
