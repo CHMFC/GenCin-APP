@@ -14,7 +14,7 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
 
     const [nome,setNome] = useState("");
     const [email,setEmail] = useState("");
-    const [matricula,setMatricula] = useState("");
+    const [tipo,setTipo] = useState("");
 
     const handleGetInfo = async () => {
         try {

@@ -30,7 +30,7 @@ export default function Home({sessaoKey, onLogin, onPag}) {
   })
 
   const handleAgenda = () => {
-    onPag(5);
+    onPag(4);
   }
 
   return (

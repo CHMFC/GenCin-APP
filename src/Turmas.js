@@ -1,32 +1,70 @@
-import React from 'react'; 
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { getMinhasTurmas } from '../functions/api';
 
-export default function Turmas() {
+export default function Turmas({ sessaoKey, onLogin, onPag }) {
+  const [turmas, setTurmas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleEntrarNaTurmaClick = () => {
-    console.log('Entrou na turma!');
+  const fetchTurmas = async () => {
+    try {
+      if (!sessaoKey) {
+        console.warn("SessaoKey não encontrada!");
+        onLogin(0);
+        return;
+      }
+      const data = await getMinhasTurmas(sessaoKey);
+      setTurmas(data);
+    } catch (error) {
+      console.error("Erro ao buscar turmas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTurmas();
+  }, [sessaoKey]);
+
+  const handleEntrarNaTurmaClick = (turma) => {
+    console.log('Entrou na turma!', turma);
+    // Aqui você pode navegar para os detalhes da turma ou outra ação desejada.
+    // Exemplo: onPag('detalhesTurma', turma);
   };
 
   const handleAdicionarTurmaClick = () => {
     console.log('Botão de adicionar turma clicado!');
+    // Ação para adicionar nova turma, se aplicável.
   };
 
   return (
     <SafeAreaView style={styles.containerSafe}>
       <ScrollView contentContainerStyle={styles.containerScroll}>
         <Text style={styles.turmas}>Turmas</Text>
-        
-        <View style={styles.listasFlexBox}>
-          <TouchableOpacity style={styles.containerDescricaoTurma} onPress={handleEntrarNaTurmaClick}>
-            <Text style={styles.turmasXx}>Turmas XX</Text>
-            <Text style={styles.pesquiseTypo}>Breve descrição da turma/área</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.chevronButton} onPress={handleEntrarNaTurmaClick}>
-            <Ionicons name='chevron-forward' size={24} color='#545759' />
-          </TouchableOpacity>
-        </View>
+        {loading ? (
+          <ActivityIndicator size="large" color="#1E90FF" />
+        ) : (
+          turmas.length > 0 ? (
+            turmas.map((turma) => (
+              <View key={turma.id} style={styles.listasFlexBox}>
+                <TouchableOpacity style={styles.containerDescricaoTurma} onPress={() => handleEntrarNaTurmaClick(turma)}>
+                  <Text style={styles.turmasXx}>{turma.codAula}</Text>
+                  <Text style={styles.pesquiseTypo}>{turma.nomeAula}</Text>
+                  <Text style={styles.pesquiseTypo}>Dias: {turma.diasSemana}</Text>
+                  <Text style={styles.pesquiseTypo}>
+                    Horário: {turma.horaInicio} - {turma.horaFim}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.chevronButton} onPress={() => handleEntrarNaTurmaClick(turma)}>
+                  <Ionicons name='chevron-forward' size={24} color='#545759' />
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.semTurmas}>Nenhuma turma encontrada.</Text>
+          )
+        )}
       </ScrollView>
 
       <TouchableOpacity style={styles.buttonContainer} onPress={handleAdicionarTurmaClick}>
@@ -80,6 +118,12 @@ const styles = StyleSheet.create({
   },
   chevronButton: {
     padding: 4,
+  },
+  semTurmas: {
+    fontSize: 14,
+    color: '#545759',
+    textAlign: 'center',
+    marginTop: 20,
   },
   buttonContainer: {
     position: 'absolute',

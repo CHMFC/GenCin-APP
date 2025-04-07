@@ -126,3 +126,162 @@ export async function cadastroAluno(nome, email, senha, matricula) {
   }
 }
 
+export async function editarDadosUsuario(tipo, nome, email, senha, extra) {
+  try {
+    let url = "";
+    if (tipo.toLowerCase() === "professor") {
+      url = `${URL}/usuario/editardadosprofessor?nome=${encodeURIComponent(
+        nome
+      )}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(
+        senha
+      )}&departamento=${encodeURIComponent(extra)}`;
+    } else if (tipo.toLowerCase() === "aluno") {
+      url = `${URL}/usuario/editardadosaluno?nome=${encodeURIComponent(
+        nome
+      )}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(
+        senha
+      )}&matricula=${encodeURIComponent(extra)}`;
+    } else {
+      throw new Error(
+        "Tipo de usuário inválido. Deve ser 'professor' ou 'aluno'."
+      );
+    }
+
+    const response = await fetch(url, { method: "PUT" });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ao atualizar dados: ${errorText}`);
+    }
+    
+    return await response.text();
+  } catch (error) {
+    console.error("Erro na função editarDadosUsuario:", error);
+    throw error;
+  }
+}
+
+export async function criarAula(keySessao, aula) {
+  try {
+    const url = `${URL}/aula/criar?keySessao=${encodeURIComponent(keySessao)}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(aula),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ao criar aula: ${errorText}`);
+    }
+
+    // Retorna o objeto aula criado (em JSON)
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na função criarAula:", error);
+    throw error;
+  }
+}
+
+// Professor edita uma aula (somente se for o dono)
+export async function editarAula(keySessao, aulaId, aula) {
+  try {
+    const url = `${URL}/aula/editar?keySessao=${encodeURIComponent(
+      keySessao
+    )}&aulaId=${encodeURIComponent(aulaId)}`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(aula),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ao editar aula: ${errorText}`);
+    }
+
+    // Retorna o objeto aula atualizado
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na função editarAula:", error);
+    throw error;
+  }
+}
+
+// Buscar aulas por código (retorna todas as aulas com o mesmo cod_aula)
+export async function buscarAula(codAula) {
+  try {
+    const url = `${URL}/aula/buscar?codAula=${encodeURIComponent(codAula)}`;
+    const response = await fetch(url, { method: "GET" });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao buscar aula: ${response.statusText}`);
+    }
+
+    // Retorna a lista de aulas encontradas
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na função buscarAula:", error);
+    throw error;
+  }
+}
+
+// Aluno adiciona uma aula à sua agenda
+export async function adicionarAulaAgenda(keySessao, aulaId) {
+  try {
+    const url = `${URL}/aula/adicionarAgenda?keySessao=${encodeURIComponent(
+      keySessao
+    )}&aulaId=${encodeURIComponent(aulaId)}`;
+    const response = await fetch(url, { method: "POST" });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ao adicionar aula na agenda: ${errorText}`);
+    }
+
+    return await response.text();
+  } catch (error) {
+    console.error("Erro na função adicionarAulaAgenda:", error);
+    throw error;
+  }
+}
+
+// Aluno remove uma aula da sua agenda
+export async function removerAulaAgenda(keySessao, aulaId) {
+  try {
+    const url = `${URL}/aula/removerAgenda?keySessao=${encodeURIComponent(
+      keySessao
+    )}&aulaId=${encodeURIComponent(aulaId)}`;
+    const response = await fetch(url, { method: "DELETE" });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro ao remover aula da agenda: ${errorText}`);
+    }
+
+    return await response.text();
+  } catch (error) {
+    console.error("Erro na função removerAulaAgenda:", error);
+    throw error;
+  }
+}
+
+export async function getMinhasTurmas(keySessao) {
+  try {
+    const url = `${URL}/aula/minhas?keySessao=${encodeURIComponent(keySessao)}`;
+    const response = await fetch(url, { method: "GET" });
+    if (!response.ok) {
+      throw new Error(`Erro ao obter turmas: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na função getMinhasTurmas:", error);
+    throw error;
+  }
+}
+
+

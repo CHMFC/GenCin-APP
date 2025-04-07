@@ -29,6 +29,11 @@ export default function Perfil({sessaoKey, onLogin, onPag}) {
           console.error("Erro ao obter informações Home:", error);
         }
       };
+      
+      
+      const handleEditar = () => {
+        onPag(5);
+      }
 
       const handleLogout = async () => {
         try {
@@ -91,7 +96,7 @@ export default function Perfil({sessaoKey, onLogin, onPag}) {
             <View style={styles.viewBlocoFixoInferior}>
 
                 {/* Botão de Editar Perfil */}
-                <TouchableOpacity style={styles.viewBotaoEditarPerfil}>
+                <TouchableOpacity onPress={handleEditar} style={styles.viewBotaoEditarPerfil}>
                     <Text style={styles.textBotaoEditarPerfil}>
                         Editar Perfil
                     </Text>
