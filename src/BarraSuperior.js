@@ -2,13 +2,17 @@ import * as React from 'react';
 import { StyleSheet, View, SafeAreaView, Image, TouchableOpacity, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function BarraSuperior() {
+export default function BarraSuperior({onPag}) {
   const handleMenuClick = () => {
-    console.log('Menu Clicado!');
+    onPag(4);
+  };
+
+  const handleHome = () => {
+    onPag(0);
   };
 
   const handleNotificacacoesClick = () => {
-    console.log('Notificações clicadas!');
+    onPag(6);
   };
 
   return (
@@ -19,12 +23,12 @@ export default function BarraSuperior() {
           <TouchableOpacity style={styles.iconContainer} onPress={handleMenuClick}>
             <Ionicons name='menu-outline' size={24} color='#FFFFFF' />
           </TouchableOpacity>
-          <View style={styles.logoContainer}>
+          <TouchableOpacity onPress={handleHome} style={styles.logoContainer}>
             <Image
               source={require('../assets/LogoNome.png')}
               style={styles.logo}
             />
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.iconContainer} onPress={handleNotificacacoesClick}>
             <Ionicons name='notifications-outline' size={24} color='#FFFFFF' />
           </TouchableOpacity>

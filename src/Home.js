@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Importando o Ionicons
-import { getInfo } from '../functions/api';
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons"; // Importando o Ionicons
+import { getInfo } from "../functions/api";
 
 export default function Home({sessaoKey, onLogin, onPag}) {
 
   const [nome,setNome] = useState("");
 
   const handleChevronClick = () => {
-    console.log('Entrar na Atividade!');
+    console.log("Entrar na Atividade!");
   };
 
   const handleGetInfo = async () => {
@@ -29,6 +29,10 @@ export default function Home({sessaoKey, onLogin, onPag}) {
     handleGetInfo();
   })
 
+  const handleAgenda = () => {
+    onPag(4);
+  }
+
   return (
     <SafeAreaView style={styles.containerSafe}>
       <ScrollView contentContainerStyle={styles.containerScroll}>
@@ -39,11 +43,44 @@ export default function Home({sessaoKey, onLogin, onPag}) {
           </View>
           <View style={styles.imageContainer}>
             <Image 
-              source={require('../assets/imagemBemVindo.png')}
+              source={require("../assets/imagemBemVindo.png")}
               style={styles.imageBemVindo} 
             />
           </View>
         </View>
+
+        <TouchableOpacity onPress={handleAgenda}>
+          <View style={styles.containerAgenda}>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>S</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>T</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>Q</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>Q</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>S</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>S</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+            <View style={styles.containerDias}>
+              <Text style={styles.textDias}>D</Text>
+              <Ionicons name="ellipse" style={[styles.frameChild]} size={40} color="#D9D9D9" />
+            </View>
+          </View>
+        </TouchableOpacity>
 
         {/* Atividades em aberto */}
         <View style={styles.containerAtividadesPrincipal}>
@@ -56,7 +93,7 @@ export default function Home({sessaoKey, onLogin, onPag}) {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.chevronButton} onPress={handleChevronClick} >
-                <Ionicons name='chevron-forward' size={24} color='#545759' />
+                <Ionicons name="chevron-forward" size={24} color="#545759" />
             </TouchableOpacity>
           </View>
         </View>
@@ -68,21 +105,20 @@ export default function Home({sessaoKey, onLogin, onPag}) {
 const styles = StyleSheet.create({
   containerSafe: {
     flex: 1,
-    backgroundColor: '#F0F0F0', // Cor de fundo geral
+    backgroundColor: "#F0F0F0", // Cor de fundo geral
   },
 
   containerScroll: {
     flexGrow: 1,
     paddingVertical: 10,
-    marginTop: 70, // Adicionando a margem superior
   },
 
   containerBemVindo: {
-    backgroundColor: '#FFFFFF',
-    width: '92%',
+    backgroundColor: "#FFFFFF",
+    width: "92%",
     height: 200,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 10,  // Remover ou ajustar a margem superior aqui
     marginLeft: 14,
     borderRadius: 16,
@@ -90,7 +126,7 @@ const styles = StyleSheet.create({
   },
 
   containerBemVindoText: {
-    width: '50%',
+    width: "50%",
     marginLeft: 10,
   },
 
@@ -102,37 +138,60 @@ const styles = StyleSheet.create({
 
   bemVindoNome: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontWeight: "bold",
+    color: "#000000",
   },
 
   imageBemVindo: {
     width: 150,
     height: 150,
-    resizeMode: 'contain',
+    resizeMode: "contain",
+  },
+
+  containerAgenda:{
+    width: "92%",
+    height: 73,
+    marginTop: 16,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    marginLeft: 14,
+    flexDirection: "row",
+    justifyContent: "space-between", // Para distribuir os itens igualmente
+  },
+
+  containerDias:{
+    width: 40,
+    height: 62,
+    margin: 5,
+    borderRadius: 3,
+  },
+
+  textDias:{
+    marginLeft: 16,
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
   containerAtividadesPrincipal: {
-    width: '100%',
+    width: "100%",
     padding: 16,
     marginBottom: 16,
   },
 
   labelAtividadeTitulo: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginLeft: 0, // Removendo a margem para alinhar à esquerda
+    fontWeight: "bold",
+    color: "#000000",
     marginBottom: 5,
   },
 
   containerAtividades: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 16,
     marginBottom: 10,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 6,
     gap: 8,
   },
@@ -144,13 +203,13 @@ const styles = StyleSheet.create({
   
   labelAtividade: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontWeight: "bold",
+    color: "#000000",
   },
   
   labelDescricaoAtividade: {
     fontSize: 12,
-    color: '#1E90FF',
+    color: "#1E90FF",
   },
   
   chevronButton: {
