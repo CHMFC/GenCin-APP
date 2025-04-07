@@ -5,6 +5,7 @@ import Login from './src/Login';
 import SeletorCadastro from './src/SeletorCadastro';
 import CadastroAluno from './src/CadastroAluno';
 import CadastroProfessor from './src/CadastroProfessor';
+import EditarPerfil from './src/EditarPerfil';
 import Home from './src/Home';
 import BarraSuperior from './src/BarraSuperior';
 import BarraInferior from './src/BarraInferior';
@@ -74,6 +75,8 @@ export default function App() {
                 <Configuracoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Configuracoes>
               ): pagina === 4 ? (
                 <Agenda sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Agenda>
+              ): pagina === 5 ? (
+                 <EditarPerfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></EditarPerfil>
               ): pagina === 6 ? (
                 <Notificacoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Notificacoes>
               ):(

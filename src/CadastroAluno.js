@@ -14,8 +14,7 @@ import {
 } from "react-native";
 import { cadastroAluno } from "../functions/api";
 
-
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 export default function CadastroAluno({ onPag }) {
   // Estados para os campos do formulário
@@ -44,8 +43,7 @@ export default function CadastroAluno({ onPag }) {
     }
 
     try {
-      // Chama a função cadastroAluno passando os dados do aluno
-      const result = await cadastroAluno(nome, email, senha, matricula);
+      await cadastroAluno(nome, email, senha, matricula);
       Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
       onPag(0);
     } catch (error) {
@@ -56,7 +54,7 @@ export default function CadastroAluno({ onPag }) {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: "#CE1111" }}
     >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.formContainer}>
@@ -219,7 +217,7 @@ const styles = StyleSheet.create({
     height: 72,
     justifyContent: "center",
     alignItems: "flex-start",
-    gap: "4%",
+    marginVertical: 8,
   },
   input: {
     flex: 1,
@@ -228,11 +226,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#F2F2F2",
     paddingLeft: 6,
+    paddingRight: 40,
   },
   buttonOlhoSenha: {
     position: "absolute",
     right: 10,
-    top: 50,
+    top: "50%",
     transform: [{ translateY: -12 }],
     justifyContent: "center",
     alignItems: "center",
