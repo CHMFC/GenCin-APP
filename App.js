@@ -13,6 +13,8 @@ import Turmas from './src/Turmas';
 import Perfil from './src/Perfil';
 import Agenda from './src/Agenda';
 import Configuracoes from './src/Configuracoes';
+import AutenticacaoDoisFatores from './src/AutenticacaoDoisFatores';
+import Notificacoes from './src/Notificacoes';
 
 export default function App() {
   const [pagina, setPagina] =  useState(4);
@@ -21,9 +23,16 @@ export default function App() {
 
   const handleLogin = (key) => {
     setkeySessao(key);
-    setLogin(4);
+    setLogin(5);
     setPagina(0);
   }
+
+  const handleAutenticacao = (key) => {
+    setkeySessao(key);
+    setLogin(5);
+    setPagina(0);
+  }
+
 
   const goToLogin = (page) => {
     setLogin(page);
@@ -45,22 +54,29 @@ export default function App() {
           <CadastroAluno onPag={goToLogin}></CadastroAluno>
         ): login === 3 ? (
           <CadastroProfessor onPag={goToLogin}></CadastroProfessor>
+        ): login === 4 ? (
+          <AutenticacaoDoisFatores sessaoKey={keySessao} onLogin={handleAutenticacao} onPag={goToLogin}></AutenticacaoDoisFatores>
         ): (
           <View>
             <View style={styles.barraSuperior}>
-              <BarraSuperior></BarraSuperior>
+              <BarraSuperior onPag={goToPage}></BarraSuperior>
             </View>
 
             <View style={styles.conteudoCentral}>
               {pagina === 0 ? (
+                
                 <Home sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Home>
+              ): pagina === 1 ? (
+                <Turmas sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Turmas>
               ): pagina === 2 ? (
                 <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
               ): pagina === 3 ? (
                 <Agenda sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Agenda>
               ): pagina === 4 ? (
                 <Configuracoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Configuracoes>
-              ): (
+              ): pagina === 6 ? (
+                <Notificacoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Notificacoes>
+              ):(
                 <View></View>
               )}
 
