@@ -15,6 +15,7 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
     const [nome,setNome] = useState("");
     const [email,setEmail] = useState("");
     const [tipo,setTipo] = useState("");
+    const [extra, setExtra] = useState("");
 
     const handleGetInfo = async () => {
         try {
@@ -25,7 +26,7 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
           const info = await getInfo(sessaoKey); 
           setNome(info[0]);
           setEmail(info[1]);
-          setMatricula(info[3]);
+          setExtra(info[3]);
     
         } catch (error) {
           console.error("Erro ao obter informações Home:", error);
@@ -49,6 +50,11 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
         } catch (error) {
         }
     };
+
+          
+    const handleEditar = () => {
+        onPag(5);
+    }
 
 
     return (
@@ -74,7 +80,7 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
                         {email}
                     </Text>
                     <Text style={styles.textPerfil}>
-                        {matricula}
+                        {extra}
                     </Text>
                 </View>
             </View>
@@ -83,15 +89,15 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
             <View style={styles.viewBlocoPrincipal}>
 
                 {/* Botão: Editar perfil */}
-                <TouchableOpacity style={styles.buttonOpcoes}>
+                <TouchableOpacity onPress={handleEditar} style={styles.buttonOpcoes}>
                     <Feather name="user" size={24} color="rgba(51, 51, 51, 255)" />
-                    <Text style={styles.textOpcoes}>
+                    <Text  style={styles.textOpcoes}>
                         Editar perfil
                     </Text>
                 </TouchableOpacity>
 
                 {/* Botão: Alterar senha */}
-                <TouchableOpacity style={styles.buttonOpcoes}>
+                <TouchableOpacity onPress={handleEditar} style={styles.buttonOpcoes}>
                     <Feather name="lock" size={24} color="rgba(51, 51, 51, 255)" />
                     <Text style={styles.textOpcoes}>
                         Alterar senha
@@ -100,26 +106,6 @@ export default function Configuracoes({sessaoKey, onLogin, onPag}) {
 
             </View>
 
-            {/* Bloco principal */}
-            <View style={styles.viewBlocoPrincipal}>
-
-                {/* Botão: Sobre */}
-                <TouchableOpacity style={styles.buttonOpcoes}>
-                    <Feather name="info" size={24} color="rgba(51, 51, 51, 255)" />
-                    <Text style={styles.textOpcoes}>
-                        Sobre
-                    </Text>
-                </TouchableOpacity>
-
-                {/* Botão: Ajuda */}
-                <TouchableOpacity style={styles.buttonOpcoes}>
-                    <Feather name="help-circle" size={24} color="rgba(51, 51, 51, 255)" />
-                    <Text style={styles.textOpcoes}>
-                        Ajuda
-                    </Text>
-                </TouchableOpacity>
-
-            </View>
 
             {/* Bloco fixo inferior */}
             <View style={styles.viewBlocoInferior}>

@@ -20,9 +20,10 @@ import AutenticacaoDoisFatores from './src/AutenticacaoDoisFatores';
 import Notificacoes from './src/Notificacoes';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(3);
+  const [pagina, setPagina] =  useState(0);
   const [keySessao, setkeySessao] = useState(0);
-  const [login, setLogin] = useState(4);
+  const [login, setLogin] = useState(0);
+  const [turma, setTurma] = useState("");
 
   const handleLogin = (key) => {
     setkeySessao(key);
@@ -43,6 +44,10 @@ export default function App() {
 
   const goToPage = (page) => {
     setPagina(page);
+  }
+
+  const setarTurma = (turm) => {
+    setTurma(turm);
   }
 
 
@@ -70,7 +75,7 @@ export default function App() {
                 
                 <Home sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Home>
               ): pagina === 1 ? (
-                <Turmas sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Turmas>
+                <Turmas sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage} onTurmas={setarTurma}></Turmas>
               ): pagina === 2 ? (
                 <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
               ): pagina === 3 ? (
@@ -81,6 +86,12 @@ export default function App() {
                  <EditarPerfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></EditarPerfil>
               ): pagina === 6 ? (
                 <Notificacoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Notificacoes>
+              ):pagina === 7 ? (
+                <AdicionarTurmaProfessor sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></AdicionarTurmaProfessor>
+              ):pagina === 8 ? (
+                <AdicionarTurmaAluno sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></AdicionarTurmaAluno>
+              ):pagina === 9 ? (
+                <VisualizarTurmaProfessor sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage} onTurma={turma}></VisualizarTurmaProfessor>
               ):(
                 <View></View>
               )}
