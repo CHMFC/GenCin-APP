@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import {
     View,
     StyleSheet,
@@ -6,8 +6,49 @@ import {
     Image,
     TouchableOpacity
 } from "react-native";
+import { getInfo, logout } from "../functions/api";
 
-export default function Perfil() {
+export default function Perfil({sessaoKey, onLogin, onPag}) {
+
+    const [nome,setNome] = useState("");
+    const [email,setEmail] = useState("");
+    const [departamento,setDepartamento] = useState("");
+
+    const handleGetInfo = async () => {
+        try {
+          if (!sessaoKey) {
+            console.warn("Nenhuma sessaoKey encontrada!");
+            onLogin(0);
+          }
+          const info = await getInfo(sessaoKey); 
+          setNome(info[0]);
+          setEmail(info[1]);
+          setDepartamento(info[3]);
+    
+        } catch (error) {
+          console.error("Erro ao obter informações Home:", error);
+        }
+      };
+
+      const handleLogout = async () => {
+        try {
+          if (!sessaoKey) {
+            console.warn("SessaoKey não encontrada!");
+            onLogin(0);
+            return;
+          }
+          // Chama a função logout passando a sessaoKey
+          const result = await logout(sessaoKey);
+          
+          // Após o logout, redirecione o usuário ou atualize o estado da aplicação
+          onLogin(0);
+        } catch (error) {
+        }
+      };
+    
+      useEffect(() => {
+        handleGetInfo();
+      })
 
     return (
 
@@ -26,12 +67,12 @@ export default function Perfil() {
 
                 {/* Nome do Usuário */}
                 <Text style={styles.textNomeUsuario}>
-                    [Nome do Usuário]
+                    {nome}
                 </Text>
 
                 {/* Email do Usuário */}
                 <Text style={styles.textEmailUsuario}>
-                    [email@email.com]
+                    {email}
                 </Text>
 
                 {/* Bloco de Informações */}
@@ -39,7 +80,7 @@ export default function Perfil() {
 
                     {/* Texto: "[Departamento]" */}
                     <Text style={styles.textDepartamentoUsuario}>
-                        [Departamento]
+                        {departamento}
                     </Text>
 
                 </View>
@@ -57,7 +98,7 @@ export default function Perfil() {
                 </TouchableOpacity>
 
                 {/* Texto: "Sair da conta" */}
-                <TouchableOpacity style={styles.viewSairConta}>
+                <TouchableOpacity style={styles.viewSairConta} onPress={handleLogout}>
                     <Text style={styles.textSairConta}>
                         Sair da conta
                     </Text>

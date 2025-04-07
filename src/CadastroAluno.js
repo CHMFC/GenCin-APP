@@ -1,253 +1,295 @@
 import React, { useState } from "react";
 import {
-    View,
-    Text,
-    Image,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    ScrollView,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from "react-native";
+import { cadastroAluno } from "../functions/api";
 
-export default function CadastroAluno() {
+const { width } = Dimensions.get("window");
 
-    const [passwordVisible, setPasswordVisible] = useState(false);
+export default function CadastroAluno({ onPag }) {
+  // Estados para os campos do formulário
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [matricula, setMatricula] = useState("");
+  const [senha, setSenha] = useState("");
+  const [repetirSenha, setRepetirSenha] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
-    return (
+  // Função para voltar à tela de login
+  const goToLogin = () => {
+    onPag(0);
+  };
 
-        <View style = {styles.container}>
-            <ScrollView contentContainerStyle = {styles.scrollAreaDeslizante}>
+  // Função para efetuar o cadastro do aluno
+  const handleCadastroAluno = async () => {
+    // Validação dos campos
+    if (!nome || !email || !matricula || !senha || !repetirSenha) {
+      Alert.alert("Atenção", "Por favor, preencha todos os campos.");
+      return;
+    }
+    if (senha !== repetirSenha) {
+      Alert.alert("Atenção", "As senhas não conferem.");
+      return;
+    }
 
-                {/* Logo */}
-                <View style = {styles.viewLogo}>
-                    <Image
-                        source={require("../assets/GenCIn_Logo.png")}
-                        style = {styles.logo}
-                    />
-                </View>
+    try {
+      await cadastroAluno(nome, email, senha, matricula);
+      Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+      onPag(0);
+    } catch (error) {
+      Alert.alert(`${error}`, "Não foi possível fazer o cadastro");
+    }
+  };
 
-                {/* Campo do Nome */}
-                <View style = {styles.viewTitulo}>
-                    <Text style = {styles.textTitulo}>
-                        Nome
-                    </Text>
-                    <TextInput
-                        style = {styles.inputCampoDigitacao}
-                        placeholder="nome"
-                        placeholderTextColor="rgba(169, 169, 169, 255)"
-                    />
-                </View>
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1, backgroundColor: "#CE1111" }}
+    >
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.formContainer}>
+          {/* Container da imagem */}
+          <View style={styles.imageContainer}>
+            <Image
+              source={require("../assets/IconLogoV.png")}
+              style={styles.image}
+            />
+          </View>
 
-                {/* Campo do Email */}
-                <View style = {styles.viewTitulo}>
-                    <Text style = {styles.textTitulo}>
-                        Email
-                    </Text>
-                    <TextInput
-                        style = {styles.inputCampoDigitacao}
-                        placeholder="email@email.com"
-                        placeholderTextColor="rgba(169, 169, 169, 255)"
-                        keyboardType="email-address"
-                    />
-                </View>
+          {/* Campo Nome */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Nome</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="nome"
+              placeholderTextColor="#BCBCBC"
+              onChangeText={setNome}
+              value={nome}
+            />
+          </View>
 
-                {/* Campo da Matrícula */}
-                <View style = {styles.viewTitulo}>
-                    <Text style = {styles.textTitulo}>
-                        Matrícula
-                    </Text>
-                    <TextInput
-                        style = {styles.inputCampoDigitacao}
-                        placeholder="matrícula"
-                        placeholderTextColor="rgba(169, 169, 169, 255)"
-                    />
-                </View>
+          {/* Campo Email */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="exemplo@gmail.com"
+              placeholderTextColor="#BCBCBC"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onChangeText={setEmail}
+              value={email}
+            />
+          </View>
 
-                {/* Campo da Senha */}
-                <View style = {styles.viewTitulo}>
-                    <Text style = {styles.textTitulo}>
-                        Senha
-                    </Text>
-                    <View style = {styles.viewSenha}>
-                        <TextInput
-                            style = {styles.inputSenha}
-                            placeholder="senha"
-                            placeholderTextColor="rgba(169, 169, 169, 255)"
-                            secureTextEntry={!passwordVisible}
-                        />
-                        <TouchableOpacity
-                            style = {styles.buttonOlhoSenha}
-                            onPress={() => setPasswordVisible(!passwordVisible)}
-                        >
-                            <Image
-                                source={
-                                    passwordVisible
-                                        ? require("../assets/SenhaRevelada.png")
-                                        : require("../assets/SenhaEscondida.png")
-                                }
-                                style = {styles.imageOlhoSenha}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+          {/* Campo Matrícula */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Matrícula</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="matrícula"
+              placeholderTextColor="#BCBCBC"
+              onChangeText={setMatricula}
+              value={matricula}
+            />
+          </View>
 
-                {/* Campo de Repetir Senha */}
-                <View style = {styles.viewTitulo}>
-                    <Text style = {styles.textTitulo}>
-                        Repetir senha
-                    </Text>
-                    <View style = {styles.viewSenha}>
-                        <TextInput
-                            style = {styles.inputSenha}
-                            placeholder="repetir senha"
-                            placeholderTextColor="rgba(169, 169, 169, 255)"
-                            secureTextEntry={!passwordVisible}
-                        />
-                        <TouchableOpacity
-                            style = {styles.buttonOlhoSenha}
-                            onPress={() => setPasswordVisible(!passwordVisible)}
-                        >
-                            <Image
-                                source={
-                                    passwordVisible
-                                        ? require("../assets/SenhaRevelada.png")
-                                        : require("../assets/SenhaEscondida.png")
-                                }
-                                style = {styles.imageOlhoSenha}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
+          {/* Campo Senha */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Senha</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="senha"
+              placeholderTextColor="#BCBCBC"
+              secureTextEntry={!passwordVisible}
+              onChangeText={setSenha}
+              value={senha}
+            />
+            <TouchableOpacity
+              style={styles.buttonOlhoSenha}
+              onPress={() => setPasswordVisible(!passwordVisible)}
+            >
+              <Image
+                source={
+                  passwordVisible
+                    ? require("../assets/SenhaRevelada.png")
+                    : require("../assets/SenhaEscondida.png")
+                }
+                style={styles.imageOlhoSenha}
+              />
+            </TouchableOpacity>
+          </View>
 
-                <View style = {{ height: 100 }} />
-            </ScrollView>
+          {/* Campo Repetir Senha */}
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Repetir senha</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="repetir senha"
+              placeholderTextColor="#BCBCBC"
+              secureTextEntry={!passwordVisible}
+              onChangeText={setRepetirSenha}
+              value={repetirSenha}
+            />
+            <TouchableOpacity
+              style={styles.buttonOlhoSenha}
+              onPress={() => setPasswordVisible(!passwordVisible)}
+            >
+              <Image
+                source={
+                  passwordVisible
+                    ? require("../assets/SenhaRevelada.png")
+                    : require("../assets/SenhaEscondida.png")
+                }
+                style={styles.imageOlhoSenha}
+              />
+            </TouchableOpacity>
+          </View>
 
-            {/* Bloco fixo que fica embaixo */}
-            <View style = {styles.viewBlocoFixoInferior}>
+          {/* Botão Criar conta */}
+          <View style={styles.buttonCriar}>
+            <TouchableOpacity style={styles.button} onPress={handleCadastroAluno}>
+              <Text style={styles.buttonText}>Criar conta</Text>
+            </TouchableOpacity>
+          </View>
 
-                {/* Botão de Cadastrar */}
-                <TouchableOpacity style = {styles.viewBotaoCadastrar}>
-                    <Text style = {styles.textBotaoCadastrar}>
-                        Cadastrar
-                    </Text>
-                </TouchableOpacity>
-
-                {/* Texto: "Já possui uma conta?" */}
-                <TouchableOpacity style = {styles.viewJaTenhoConta}>
-                    <Text style = {styles.textJaTenhoConta}>
-                        Já possui uma conta?
-                    </Text>
-                </TouchableOpacity>
-
-            </View>
+          {/* Link para voltar ao login */}
+          <View style={styles.linkContainer}>
+            <TouchableOpacity style={styles.link} onPress={goToLogin}>
+              <Text style={styles.linkText}>
+                Já tenho conta! Quero fazer login
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-    );
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 }
 
 const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: "rgba(206, 17, 17, 255)",
-    },
-
-    scrollAreaDeslizante: {
-        paddingHorizontal: 20,
-        paddingVertical: 40,
-        alignItems: "center",
-    },
-
-    viewLogo: {
-        marginTop: 50,
-        marginBottom: 50,
-        width: "100%",
-        alignItems: "center",
-    },
-    logo: {
-        width: 256,
-        height: 128,
-        resizeMode: "contain",
-    },
-
-    viewTitulo: {
-        width: 328,
-        marginBottom: 20,
-    },
-    textTitulo: {
-        color: "rgba(255, 255, 255, 255)",
-        fontFamily: "Roboto",
-        fontSize: 22,
-        fontWeight: "500",
-        marginBottom: 5,
-    },
-    inputCampoDigitacao: {
-        backgroundColor: "rgba(255, 255, 255, 255)",
-        color: "rgba(0, 0, 0, 255)",
-        height: 55,
-        fontSize: 20,
-        borderRadius: 8,
-        paddingHorizontal: 10,
-    },
-
-    viewSenha: {
-        backgroundColor: "rgba(255, 255, 255, 255)",
-        flexDirection: "row",
-        alignItems: "center",
-        borderRadius: 8,
-        paddingHorizontal: 10,
-    },
-    inputSenha: {
-        flex: 1,
-        height: 55,
-        fontSize: 20,
-        color: "rgba(0, 0, 0, 255)",
-    },
-    buttonOlhoSenha: {
-        width: 40,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    imageOlhoSenha: {
-        width: 24,
-        height: 24,
-        tintColor: "rgba(0, 0, 0, 255)",
-    },
-
-    viewBlocoFixoInferior: {
-        backgroundColor: "rgba(206, 17, 17, 255)",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        alignItems: "center",
-        paddingVertical: 15,
-    },
-
-    viewBotaoCadastrar: {
-        backgroundColor: "rgba(0, 123, 255, 255)",
-        width: 328,
-        alignItems: "center",
-        borderRadius: 8,
-        paddingVertical: 15,
-        marginBottom: 20,
-    },
-    textBotaoCadastrar: {
-        color: "rgba(255, 255, 255, 255)",
-        fontFamily: "Roboto",
-        fontSize: 18,
-        fontWeight: "700",
-    },
-
-    viewJaTenhoConta: {
-        alignItems: "center",
-    },
-    textJaTenhoConta: {
-        color: "rgba(255, 255, 255, 255)",
-        fontFamily: "Roboto",
-        textAlign: "center",
-        fontSize: 16,
-        textDecorationLine: "underline",
-    },
-
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: "4%",
+    paddingRight: "4%",
+    paddingTop: "6%",
+    paddingBottom: "6%",
+    backgroundColor: "#CE1111",
+  },
+  formContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  imageContainer: {
+    width: width * 0.4,
+    aspectRatio: 1.5,
+    marginBottom: 5,
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  label: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    marginTop: 6,
+  },
+  inputContainer: {
+    alignSelf: "stretch",
+    height: 72,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginVertical: 8,
+  },
+  input: {
+    flex: 1,
+    alignSelf: "stretch",
+    height: 50,
+    borderRadius: 8,
+    backgroundColor: "#F2F2F2",
+    paddingLeft: 6,
+    paddingRight: 40,
+  },
+  buttonOlhoSenha: {
+    position: "absolute",
+    right: 10,
+    top: "50%",
+    transform: [{ translateY: -12 }],
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageOlhoSenha: {
+    width: 24,
+    height: 24,
+    tintColor: "#BCBCBC",
+  },
+  buttonCriar: {
+    alignSelf: "stretch",
+    height: 72,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "3%",
+  },
+  button: {
+    alignSelf: "stretch",
+    height: 45,
+    paddingLeft: "4%",
+    paddingRight: "4%",
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1E90FF",
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontFamily: "Roboto",
+    fontWeight: "400",
+  },
+  linkContainer: {
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "3%",
+  },
+  link: {
+    alignSelf: "stretch",
+    paddingLeft: "4%",
+    paddingRight: "4%",
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  linkText: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    fontFamily: "Roboto-Regular",
+    fontWeight: "400",
+    textAlign: "center",
+    textDecorationLine: "underline",
+  },
 });
