@@ -16,7 +16,7 @@ export default function BarraInferior({onPag}) {
   };
 
   const handleConfiguracoesPress = () => {
-    console.log('Configurações Clicado!');
+    onPag(3);
   };
 
   return (

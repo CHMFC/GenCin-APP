@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function BarraSuperior({onPag}) {
   const handleMenuClick = () => {
-    console.log('Menu Clicado!');
+    onPag(4);
   };
 
   const handleHome = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -8,8 +8,49 @@ import {
 } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
+import { getInfo, logout } from "../functions/api";
 
-export default function Configuracoes() {
+export default function Configuracoes({sessaoKey, onLogin, onPag}) {
+
+    const [nome,setNome] = useState("");
+    const [email,setEmail] = useState("");
+    const [matricula,setMatricula] = useState("");
+
+    const handleGetInfo = async () => {
+        try {
+          if (!sessaoKey) {
+            console.warn("Nenhuma sessaoKey encontrada!");
+            onLogin(0);
+          }
+          const info = await getInfo(sessaoKey); 
+          setNome(info[0]);
+          setEmail(info[1]);
+          setMatricula(info[3]);
+    
+        } catch (error) {
+          console.error("Erro ao obter informações Home:", error);
+        }
+      };
+
+    useEffect(() => {
+        handleGetInfo();
+    })
+
+    const handleLogout = async () => {
+        try {
+            if (!sessaoKey) {
+            console.warn("SessaoKey não encontrada!");
+            onLogin(0);
+            return;
+            }
+            const result = await logout(sessaoKey);
+        
+            onLogin(0);
+        } catch (error) {
+        }
+    };
+
+
     return (
 
         // Bloco de fundo
@@ -27,13 +68,13 @@ export default function Configuracoes() {
                 {/* Bloco de informações do perfil */}
                 <View style={styles.viewInformacoesPerfil}>
                     <Text style={styles.textPerfil}>
-                        nome do usuário
+                        {nome}
                     </Text>
                     <Text style={styles.textPerfil}>
-                        email@email.com
+                        {email}
                     </Text>
                     <Text style={styles.textPerfil}>
-                        matrícula
+                        {matricula}
                     </Text>
                 </View>
             </View>
@@ -84,14 +125,13 @@ export default function Configuracoes() {
             <View style={styles.viewBlocoInferior}>
 
                 {/* Botão: Sair da conta */}
-                <TouchableOpacity style={styles.buttonSairConta}>
+                <TouchableOpacity onPress={handleLogout} style={styles.buttonSairConta}>
                     <Feather name="log-out" size={20} color="rgba(255, 59, 48, 255)" />
                     <Text style={styles.textSairConta}>
                         Sair da conta
                     </Text>
                 </TouchableOpacity>
 
-                {/* Texto informativo: Versão do APP */}
                 <Text style={styles.textVersaoAPP}>
                     Versão 1.0
                 </Text>
