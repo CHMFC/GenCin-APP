@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { getInfo } from "../functions/api";
 
-export default function AutenticacaoDoisFatores({ onPag }) {
+export default function AutenticacaoDoisFatores({ sessaoKey, onPag }) {
 
     const goToLogin = async () => {
         try {
@@ -10,6 +11,17 @@ export default function AutenticacaoDoisFatores({ onPag }) {
             console.error(error);
         }
     };
+
+    const handleRecovery = async () => {
+        try {
+            const resposta = await getInfo(sessaoKey+code);
+            onLogin(resposta);
+        } catch (error) {
+            setErrado(1); // Define estado de erro para exibir alerta
+            setIsVisible(true); // Garante que o alerta apareça novamente
+        }
+    };
+
 
     // useState para criar um estado 'code' que armazena um array com 6 valores vazios (um para cada input)
     const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -41,10 +53,6 @@ export default function AutenticacaoDoisFatores({ onPag }) {
             // Se o input atual estiver vazio, move o foco para o input anterior
             inputsRef.current[index - 1]?.focus();
         }
-    };
-
-    const handleRecovery = () => {
-        console.log("Codigo de Autenticacao enviado");
     };
 
     return (

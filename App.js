@@ -11,6 +11,8 @@ import BarraInferior from './src/BarraInferior';
 import AdicionarTurmaAluno from './src/AdicionarTurmaAluno';
 import Turmas from './src/Turmas';
 import Perfil from './src/Perfil';
+import AutenticacaoDoisFatores from './src/AutenticacaoDoisFatores';
+import Notificacoes from './src/Notificacoes';
 
 export default function App() {
   const [pagina, setPagina] =  useState(0);
@@ -19,9 +21,16 @@ export default function App() {
 
   const handleLogin = (key) => {
     setkeySessao(key);
-    setLogin(4);
+    setLogin(5);
     setPagina(0);
   }
+
+  const handleAutenticacao = (key) => {
+    setkeySessao(key);
+    setLogin(5);
+    setPagina(0);
+  }
+
 
   const goToLogin = (page) => {
     setLogin(page);
@@ -43,18 +52,25 @@ export default function App() {
           <CadastroAluno onPag={goToLogin}></CadastroAluno>
         ): login === 3 ? (
           <CadastroProfessor onPag={goToLogin}></CadastroProfessor>
+        ): login === 4 ? (
+          <AutenticacaoDoisFatores sessaoKey={keySessao} onLogin={handleAutenticacao} onPag={goToLogin}></AutenticacaoDoisFatores>
         ): (
           <View>
             <View style={styles.barraSuperior}>
-              <BarraSuperior></BarraSuperior>
+              <BarraSuperior onPag={goToPage}></BarraSuperior>
             </View>
 
             <View style={styles.conteudoCentral}>
               {pagina === 0 ? (
+                
                 <Home sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Home>
+              ): pagina === 1 ? (
+                <Turmas sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Turmas>
               ): pagina === 2 ? (
                 <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
-              ): (
+              ): pagina === 6 ? (
+                <Notificacoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Notificacoes>
+              ):(
                 <View></View>
               )}
 

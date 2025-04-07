@@ -8,7 +8,7 @@ export default function BarraInferior({onPag}) {
   };
 
   const handleTurmasPress = () => {
-    console.log('Turmas Clicado!');
+    onPag(1);
   };
 
   const handlePerfilPress = () => {

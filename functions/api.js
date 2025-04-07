@@ -1,4 +1,4 @@
-const URL = "http://172.233.24.207:8080/api/v1";
+const URL = "http://198.74.53.107:8080/api/v1";
 
 export async function login(user, senha) {
   try {
@@ -19,6 +19,7 @@ export async function login(user, senha) {
 }
 
 export async function getInfo(keySessao) {
+  print(keySessao);
   try {
     const url = `${URL}/usuario/getinfo?keySessao=${encodeURIComponent(
       keySessao
