@@ -10,6 +10,8 @@ import Home from './src/Home';
 import BarraSuperior from './src/BarraSuperior';
 import BarraInferior from './src/BarraInferior';
 import AdicionarTurmaAluno from './src/AdicionarTurmaAluno';
+import AdicionarTurmaProfessor from './src/AdicionarTurmaProfessor';
+import VisualizarTurmaProfessor from './src/VisualizarTurmaProfessor';
 import Turmas from './src/Turmas';
 import Perfil from './src/Perfil';
 import Agenda from './src/Agenda';
@@ -18,9 +20,9 @@ import AutenticacaoDoisFatores from './src/AutenticacaoDoisFatores';
 import Notificacoes from './src/Notificacoes';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(0);
+  const [pagina, setPagina] =  useState(3);
   const [keySessao, setkeySessao] = useState(0);
-  const [login, setLogin] = useState(0);
+  const [login, setLogin] = useState(4);
 
   const handleLogin = (key) => {
     setkeySessao(key);
