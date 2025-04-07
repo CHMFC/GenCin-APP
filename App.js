@@ -11,13 +11,15 @@ import BarraInferior from './src/BarraInferior';
 import AdicionarTurmaAluno from './src/AdicionarTurmaAluno';
 import Turmas from './src/Turmas';
 import Perfil from './src/Perfil';
+import Agenda from './src/Agenda';
+import Configuracoes from './src/Configuracoes';
 import AutenticacaoDoisFatores from './src/AutenticacaoDoisFatores';
 import Notificacoes from './src/Notificacoes';
 
 export default function App() {
-  const [pagina, setPagina] =  useState(0);
+  const [pagina, setPagina] =  useState(4);
   const [keySessao, setkeySessao] = useState(0);
-  const [login, setLogin] = useState(0);
+  const [login, setLogin] = useState(4);
 
   const handleLogin = (key) => {
     setkeySessao(key);
@@ -68,6 +70,10 @@ export default function App() {
                 <Turmas sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Turmas>
               ): pagina === 2 ? (
                 <Perfil sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Perfil>
+              ): pagina === 3 ? (
+                <Agenda sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Agenda>
+              ): pagina === 4 ? (
+                <Configuracoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Configuracoes>
               ): pagina === 6 ? (
                 <Notificacoes sessaoKey={keySessao} onLogin={goToLogin} onPag={goToPage}></Notificacoes>
               ):(
